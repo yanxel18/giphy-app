@@ -1,0 +1,58 @@
+<div class="search-area-container">
+  <div class="search-bar-container">
+    <mat-form-field class="search-text" subscriptSizing="dynamic">
+      <input
+        [(ngModel)]="searchQuery"
+        matInput
+        placeholder="Find your favorite GIFS!"
+        #searchbar
+        (value)="searchQuery"
+        maxlength="40"
+        (keydown.enter)="searchGif()"
+       
+      />
+      <button matSuffix mat-icon-button (click)="searchGif()" class="search-button-suffix">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+  <div class="search-bar-results-container mat-elevation-z4" (scroll)="onScroll($event)">
+    <div class="search-bar-results">
+      <div
+        *ngFor="let gif of (gifResult | async); let i = index; trackBy: trackGIFIndex"
+        class="image-holder"
+      >
+        <img
+          width="236px"
+          [src]="gif.images.preview_webp.url"
+          class="image-result mat-elevation-z4"
+          alt="{{ gif.title }}"
+        />
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- <form class="example-form">
+    <mat-form-field class="example-full-width">
+      <mat-label>Favorite food</mat-label>
+      <input matInput placeholder="Ex. Pizza" [ngModel]>
+    </mat-form-field>
+ 
+  </form>
+
+
+
+  <div>
+    <h2>Search for Gifs</h2>
+    <input [(ngModel)]="searchTerm" [value]=5 placeholder="Enter search term">
+    <button  (click)="searchGif()">Search</button>
+  </div>
+  
+  <div  style="width:100%;columns: 4;flex-wrap: wrap; border: 1px solid red">
+    <div *ngFor="let gif of gifs; let i = index;
+    trackBy: trackGIFIndex" style="display: inline-block;border: 1px solid blue;"  >
+  <img  width="248px" [src]="gif.images.preview_webp.url" style="border-radius: 16px;" alt="{{ gif.title }}">
+    </div>
+  </div> -->

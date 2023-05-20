@@ -1,0 +1,57 @@
+.main-container
+    display: flex
+    min-width: 1040px
+    flex-direction: column
+    position: absolute
+    top: 0
+    bottom: 0
+    left: 0
+    right: 0
+
+ 
+.home-background
+    top: 0px
+    position: absolute
+    height:300px
+    z-index: -999
+    background-color: #7030A0
+    width: 100% 
+.app-name
+    margin-left: 8px
+    font-size: 22px 
+    font-weight: 800
+    color: #ffffff !important
+    margin-right: 20px
+    text-decoration: none
+.app-name ::hover
+    background-color: none
+
+.spacer
+    flex: 1 1 auto
+.main-toolbar
+    background-color: #7030A0 
+.is-mobile .main-toolbar
+    position: fixed
+    z-index: 2
+    background-color: #ffffff
+.sidenav-container
+    background-color: #ffffff
+    flex: 1
+.side-nav-content
+    background-color: #ffffff
+.is-mobile .sidenav-container
+    flex: 1 0 auto
+.side-nav-content::-webkit-scrollbar
+    -webkit-appearance: none
+    width: 7px
+.side-nav-content::-webkit-scrollbar-track
+    border-radius: 10px
+    background: rgba(0,0,0,0.1)
+.side-nav-content::-webkit-scrollbar-thumb
+    -webkit-appearance: true
+    border-radius: 10px
+    background: rgba(0,0,0,0.2)
+.side-nav-content::-webkit-scrollbar-thumb:hover
+    background: rgba(0,0,0,0.4)
+.side-nav-content::-webkit-scrollbar-thumb:active
+    background: rgba(0,0,0,0.9)
