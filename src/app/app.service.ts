@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IAPIParam } from 'src/models/web-interface';
 import { environment } from 'src/environments/environment.development';
-import { Observable, map, shareReplay } from 'rxjs';
+import { Observable, map, retry, shareReplay } from 'rxjs';
 import { IGiphyPayload } from 'src/models/giphy-interface';
 @Injectable({
   providedIn: 'root',
@@ -23,7 +23,7 @@ export class AppService {
   searchGif(searchParam: IAPIParam): Observable<IGiphyPayload> {   
     return this.http.get<IGiphyPayload>(this.API_URL(searchParam)).pipe(map((res) => { 
         return res;
-    }),shareReplay());
+    }),shareReplay(),retry(10));
   }
   /**
    * 
@@ -37,7 +37,7 @@ export class AppService {
   trendingGif(trendingParam: Partial<IAPIParam>): Observable<IGiphyPayload> {   
     return this.http.get<IGiphyPayload>(this.API_TRENDING_URL(trendingParam)).pipe(map((res) => { 
         return res;
-    }),shareReplay());
+    }),shareReplay(),retry(10));
   }
 /**
  * 

@@ -79,6 +79,7 @@ export class CSearchbarComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getSearchResult(): void {
+    this.Subscriptions.map(subscription => subscription.unsubscribe());
     if (typeof this.searchQuery === 'string') {
       this.searchQuery = this.searchQuery!.trim();
       if (!this.searchQuery) this.searchTrendingGif();
@@ -143,6 +144,9 @@ export class CSearchbarComponent implements OnInit, AfterViewInit, OnDestroy {
     }, 0);
   }
 
+  checkifload(event: Event): void {
+    (event.target as HTMLImageElement).style.display = 'none';
+  }
   ngOnDestroy() {
     this.Subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
