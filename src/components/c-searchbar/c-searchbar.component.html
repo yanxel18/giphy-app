@@ -5,7 +5,7 @@
         [(ngModel)]="searchQuery"
         matInput
         placeholder="Find your favorite GIFS!"
-        #searchbar 
+        #searchbar
         maxlength="40"
         (keydown.enter)="searchGif()"
       />
@@ -21,26 +21,63 @@
   </div>
   <div class="search-bar-results-container mat-elevation-z4">
     <div class="search-bar-results-scroller">
+      <div class="trending-container" *ngIf="!searchOrTrend">
+        <h1>Trending Gifs!</h1>
+      </div>
       <div class="search-bar-results">
-        <div
-          *ngFor="let gif of gifResult; let i = index; trackBy: trackGIFIndex"
-          class="image-holder"
-        >
-          <img
-            [src]="gif.images.preview_webp.url"
-            [alt]="gif.title"
-            class="image-result mat-elevation-z4"
-            width="236"
-            height="200"
-            sizes="(max-width: 236px)"
-          />
-        </div>
-      </div>
-      <div class="show-more-container" *ngIf="gifResult.length > 0">
-        <button mat-flat-button (click)="loadMoreGif()">..Load More</button>
-      </div>
+        <div *ngIf="gifResult.length > 0; then withresult else noresult"></div>
+          <ng-template #withresult>
+            <div
+            *ngFor="let gif of gifResult; let i = index; trackBy: trackGIFIndex"
+            class="image-holder"
+          >
+            <img
+              [src]="gif.images.fixed_height.url"
+              [alt]="gif.title"
+              class="image-result mat-elevation-z4"
+              width="236"
+              height="200"
+              sizes="(max-width: 236px)"
+            />
+          </div>
+          </ng-template>
 
+        <ng-template #noresult>
+          <div  class="search-results-skeleton"   *ngFor="let data of skeletonLoader; trackBy: trackGIFIndex">
+            <ngx-skeleton-loader
+              count="20"
+              appearance="line"
+              [theme]="loaderStyle"
+              animation="progress"
+            ></ngx-skeleton-loader>
+          </div>
+        </ng-template>
+
+
+      </div>
+      <div
+        class="show-more-container"
+        *ngIf="
+          gifResult.length > 0 && searchResultCount > gifResult.length;
+          else noMoreItems
+        "
+      >
+        <button
+          mat-flat-button
+          class="show-more-button"
+          (click)="loadMoreGif()"
+        >
+          ..Show more GiFs!
+        </button>
+      </div>
+      <ng-template #noMoreItems>
+        <div class="show-more-container">
+          No more search results.
+        </div></ng-template
+      >
     </div>
+ 
+
 
   </div>
 </div>

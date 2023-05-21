@@ -9,6 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { CHomegiphyComponent } from 'src/components/c-homegiphy/c-homegiphy.component';
 import { NgOptimizedImage } from '@angular/common';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { NgOptimizedImage } from '@angular/common';
     MaterialModules,
     FormsModule,
     ReactiveFormsModule,
-    NgOptimizedImage
+    NgOptimizedImage,
+    NgxSkeletonLoaderModule
   ],
   providers: [],
   bootstrap: [AppComponent]

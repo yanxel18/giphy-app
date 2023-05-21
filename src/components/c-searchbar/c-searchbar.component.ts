@@ -9,7 +9,7 @@ import {
 import { Observable, Subscription, map } from 'rxjs';
 import { AppService } from 'src/app/app.service';
 import { IGiphyData } from 'src/models/giphy-interface';
-import { IAPIParam } from 'src/models/web-interface';
+import { IAPIParam, ISkeletonLoader } from 'src/models/web-interface';
 
 
 @Component({
@@ -22,17 +22,29 @@ export class CSearchbarComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(private appService: AppService) {}
   @ViewChild('searchbar') searchbar!: ElementRef<HTMLInputElement>;
   MAX_SEARCH_LIMIT: number = 5;
+  searchResultCount: number = 0;
   Subscriptions: Subscription[] = [];
   searchQuery: string = "";
   searchOrTrend: boolean = false;
   searchLimit: number = 24;
   searchOffset: number = 0;
   gifResult:  IGiphyData[] = [];
+  skeletonLoader: number [] = [this.searchLimit];
   hideSearchMore: boolean = true;
   ngOnInit() {
     this.initializePage();
   }
+  loaderStyle: any = {
+    'background-color': '#e2e2e2',
+    height: '200px',
+    'border-radius': '16px',
+    width: '236px',
+    'margin-top': '4px',
+    'margin-bottom': '4px',
+    'margin-left': '4px',
+    'margin-right': '8px',
 
+  };
   initializePage(): void {
     const getSearchOrTrend: string | null =
       this.appService.tempGetKey('_searchType');
@@ -75,6 +87,7 @@ export class CSearchbarComponent implements OnInit, AfterViewInit, OnDestroy {
         this.Subscriptions.push(this.appService.searchGif(this.searchParamValue).subscribe((data) => {
           if (data) {
             this.gifResult = this.gifResult.concat(data.data)
+            this.searchResultCount = data.pagination.total_count;
             this.hideSearchMore = false;
           }
         }));
@@ -87,6 +100,7 @@ export class CSearchbarComponent implements OnInit, AfterViewInit, OnDestroy {
       if (data) {
         this.gifResult = this.gifResult.concat(data.data)
         this.hideSearchMore = false;
+        this.searchResultCount = data.pagination.total_count;
       }
     }));
   }
@@ -95,6 +109,8 @@ export class CSearchbarComponent implements OnInit, AfterViewInit, OnDestroy {
    */
   searchGif(): void {
     this.appService.tempStoreKey('_searchType', '1'); 
+    this.appService.tempStoreKey('_searchOffset', '0');
+    this.searchOffset = 0;
     this.searchOrTrend = true; 
     this.Subscriptions.map(subscription => subscription.unsubscribe());
     this.gifResult = [];
