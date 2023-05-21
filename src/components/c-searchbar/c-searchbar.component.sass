@@ -18,21 +18,31 @@
     margin-top: 10px
     margin-bottom: 10px
     border-radius: 20px
-    height: 100%
+    height: calc(100% - 130px)
     background-color: #ffffff
-    border: 1px solid green 
-    overflow-y: auto 
+    border: 1px solid green  
     padding: 16px 
 .search-bar-results 
-    columns: 4 
-    border: 1px solid pink
-.image-holder
-    width: 236px
+    border: 1px solid red
+    display: flex
+    flex-wrap: wrap
+    justify-content: center 
+    justify-content: space-around
+    align-content: space-between
+.search-bar-results-scroller 
+    height: 100%
+    overflow-y: auto
+.image-holder 
     padding: 4px 0px 4px 0px
 .image-result
     border-radius: 16px
     margin: 0px
-    
+.show-more-container
+    justify-content: center
+    align-items: center
+    display: flex
+    height: 45px 
+    border: 1px solid blue    
 .search-text ::ng-deep .mdc-text-field
     width: 1038px
     height: 80px
@@ -72,17 +82,17 @@
         width: 60px !important
         height: 60px !important
 
-.search-bar-results-container::-webkit-scrollbar
+.search-bar-results-scroller::-webkit-scrollbar
     -webkit-appearance: none
     width: 7px
-.search-bar-results-container::-webkit-scrollbar-track
+.search-bar-results-scroller::-webkit-scrollbar-track
     border-radius: 10px
     background: rgba(0,0,0,0.1)
-.search-bar-results-container::-webkit-scrollbar-thumb
+.search-bar-results-scroller::-webkit-scrollbar-thumb
     -webkit-appearance: true
     border-radius: 10px
     background: rgba(0,0,0,0.2)
-.search-bar-results-container::-webkit-scrollbar-thumb:hover
+.search-bar-results-scroller::-webkit-scrollbar-thumb:hover
     background: rgba(0,0,0,0.4)
-.search-bar-results-container::-webkit-scrollbar-thumb:active
+.search-bar-results-scroller::-webkit-scrollbar-thumb:active
     background: rgba(0,0,0,0.9)

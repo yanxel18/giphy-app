@@ -2,13 +2,15 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  OnDestroy,
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { Observable, Subscription, map } from 'rxjs';
 import { AppService } from 'src/app/app.service';
 import { IGiphyData } from 'src/models/giphy-interface';
 import { IAPIParam } from 'src/models/web-interface';
+
 
 @Component({
   selector: 'app-c-searchbar',
@@ -16,15 +18,17 @@ import { IAPIParam } from 'src/models/web-interface';
   styleUrls: ['./c-searchbar.component.sass'],
   providers: [AppService],
 })
-export class CSearchbarComponent implements OnInit, AfterViewInit {
+export class CSearchbarComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(private appService: AppService) {}
   @ViewChild('searchbar') searchbar!: ElementRef<HTMLInputElement>;
-
+  MAX_SEARCH_LIMIT: number = 5;
+  Subscriptions: Subscription[] = [];
   searchQuery: string = "";
   searchOrTrend: boolean = false;
-  searchLimit: number = 10;
+  searchLimit: number = 24;
   searchOffset: number = 0;
-  gifResult!: Observable<IGiphyData[]>;
+  gifResult:  IGiphyData[] = [];
+  hideSearchMore: boolean = true;
   ngOnInit() {
     this.initializePage();
   }
@@ -33,61 +37,77 @@ export class CSearchbarComponent implements OnInit, AfterViewInit {
     const getSearchOrTrend: string | null =
       this.appService.tempGetKey('_searchType');
     const getSearchQuery = this.appService.tempGetKey('_searchQuery');
+    const getSearchOffset = this.appService.tempGetKey('_searchOffset');
     this.searchOrTrend = getSearchOrTrend === '1' ? true : false;
     this.searchQuery = getSearchQuery ? getSearchQuery : "";
+    this.searchOffset = getSearchOffset? +getSearchOffset : 0; 
     this.changeSearchResult(this.searchOrTrend);
   }
   changeSearchResult(changeSearch: boolean): void {
     changeSearch ? this.searchGif() : this.searchTrendingGif();
   }
-  onScroll(event: any) {
-    // visible height + pixel scrolled >= total height 
-    if (event.target.offsetHeight + event.target.scrollTop >= event.target.scrollHeight) {
-      this.searchLimit = this.searchLimit + 2;
-      this.searchGif();
+ 
+  loadMoreGif(): void {
+    const OFFSET_ADDITIONAL = 24;
+    this.searchOffset = this.searchOffset + OFFSET_ADDITIONAL;
+    this.appService.tempStoreKey('_searchOffset', (this.searchOffset).toString());
+    this.Subscriptions.map(subscription => subscription.unsubscribe());
+    this.searchOrTrend ? this.getSearchResult() : this.getSearchTrendResult();
+  }
 
-      console.log("End");
-    }
-}
-  /**
-   * Search for GIF images based on a search term.
-   */
-  searchGif(): void {
-    this.appService.tempStoreKey('_searchType', '1');
-    this.searchOrTrend = true; 
+  get searchParamValue(): IAPIParam {
+    const searchParam: IAPIParam = {
+      query: this.searchQuery,
+      offset: this.searchOffset,
+      limit: this.searchLimit,
+      rating: 'g',
+      language: 'en',
+    };
+    return searchParam;
+  }
+
+  getSearchResult(): void {
     if (typeof this.searchQuery === 'string') {
       this.searchQuery = this.searchQuery!.trim();
       if (!this.searchQuery) this.searchTrendingGif();
       else {
-        this.appService.tempStoreKey('_searchhQuery', this.searchQuery);
-        const searchParam: IAPIParam = {
-          query: this.searchQuery,
-          offset: this.searchOffset,
-          limit: this.searchLimit,
-          rating: 'g',
-          language: 'en',
-        };
-        this.gifResult = this.appService
-          .searchGif(searchParam)
-          .pipe(map((res) => res.data));
+        this.appService.tempStoreKey('_searchQuery', this.searchQuery); 
+        this.Subscriptions.push(this.appService.searchGif(this.searchParamValue).subscribe((data) => {
+          if (data) {
+            this.gifResult = this.gifResult.concat(data.data)
+            this.hideSearchMore = false;
+          }
+        }));
       }
     }
+  }
+
+  getSearchTrendResult(): void {
+    this.Subscriptions.push(this.appService.trendingGif(this.searchParamValue).subscribe((data) => {
+      if (data) {
+        this.gifResult = this.gifResult.concat(data.data)
+        this.hideSearchMore = false;
+      }
+    }));
+  }
+  /**
+   * Search for GIF images based on a search term.
+   */
+  searchGif(): void {
+    this.appService.tempStoreKey('_searchType', '1'); 
+    this.searchOrTrend = true; 
+    this.Subscriptions.map(subscription => subscription.unsubscribe());
+    this.gifResult = [];
+    this.getSearchResult();
   }
   /**
    * Initial display of trending GIFs.
    */
   searchTrendingGif(): void {
     this.appService.tempStoreKey('_searchType', '0');
-    this.searchOrTrend = false;
-    const trendingGifParam: Partial<IAPIParam> = {
-      offset: this.searchOffset,
-      limit: this.searchLimit,
-      rating: 'g',
-      language: 'en',
-    };
-    this.gifResult = this.appService
-      .trendingGif(trendingGifParam)
-      .pipe(map((res) => res.data));
+    this.appService.tempStoreKey('_searchQuery', '');
+    this.searchOrTrend = false; 
+    this.getSearchTrendResult();
   }
   /**
    *
@@ -101,6 +121,13 @@ export class CSearchbarComponent implements OnInit, AfterViewInit {
    * Put the cursor to the search bar.
    */
   ngAfterViewInit(): void {
-    setTimeout(() => this.searchbar.nativeElement.focus(), 0);
+    setTimeout(() => {
+      this.searchbar.nativeElement.value = this.searchQuery;
+      this.searchbar.nativeElement.focus()
+    }, 0);
+  }
+
+  ngOnDestroy() {
+    this.Subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
 }

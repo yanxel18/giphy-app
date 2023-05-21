@@ -8,7 +8,7 @@ import { MaterialModules } from 'src/material-modules/material-modules';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { CHomegiphyComponent } from 'src/components/c-homegiphy/c-homegiphy.component';
-
+import { NgOptimizedImage } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -24,6 +24,7 @@ import { CHomegiphyComponent } from 'src/components/c-homegiphy/c-homegiphy.comp
     MaterialModules,
     FormsModule,
     ReactiveFormsModule,
+    NgOptimizedImage
   ],
   providers: [],
   bootstrap: [AppComponent]
