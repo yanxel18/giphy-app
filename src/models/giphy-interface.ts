@@ -128,3 +128,15 @@ export interface Pagination {
     count:       number;
     offset:      number;
 }
+
+
+export interface TrendingWord {
+    data: string[];
+    meta: Meta;
+}
+
+export interface Meta {
+    msg:         string;
+    status:      number;
+    response_id: string;
+}

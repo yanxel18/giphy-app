@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { IAPIParam } from 'src/models/web-interface';
 import { environment } from 'src/environments/environment.development';
 import { Observable, map, retry, shareReplay } from 'rxjs';
-import { IGiphyPayload } from 'src/models/giphy-interface';
+import { IGiphyPayload, TrendingWord } from 'src/models/giphy-interface';
 @Injectable({
   providedIn: 'root',
 })
@@ -21,7 +21,7 @@ export class AppService {
    * @returns 
    */
   searchGif(searchParam: IAPIParam): Observable<IGiphyPayload> {   
-    return this.http.get<IGiphyPayload>(this.API_URL(searchParam)).pipe(map((res) => { 
+    return this.http.get<IGiphyPayload>(this.ApiSearchUrl(searchParam)).pipe(map((res) => { 
         return res;
     }),shareReplay(),retry(10));
   }
@@ -35,8 +35,17 @@ export class AppService {
    * @returns 
    */
   trendingGif(trendingParam: Partial<IAPIParam>): Observable<IGiphyPayload> {   
-    return this.http.get<IGiphyPayload>(this.API_TRENDING_URL(trendingParam)).pipe(map((res) => { 
+    return this.http.get<IGiphyPayload>(this.ApiTrendingUrl(trendingParam)).pipe(map((res) => { 
         return res;
+    }),shareReplay(),retry(10));
+  }
+  /**
+   * 
+   * @returns 
+   */
+  trendingWordsUrl(): Observable<string[]> {   
+    return this.http.get<TrendingWord>(this.ApiTrendingWordsUrl()).pipe(map((res) => { 
+        return res.data ?? [];
     }),shareReplay(),retry(10));
   }
 /**
@@ -44,9 +53,9 @@ export class AppService {
  * @param urlParam received from searchGif method
  * @returns API Url string
  */
-  protected API_URL(urlParam: IAPIParam): string {
+  protected ApiSearchUrl(urlParam: IAPIParam): string {
     const { query, offset, limit, rating, language } = urlParam;
-    const API_URL: string = `${environment.API_URL}?api_key=${environment.API_KEY}&q=${query}&limit=${limit}&offset=${offset}&rating=${rating}&lang=${language}`;
+    const API_URL: string = `${environment.API_ROOT_URL}${environment.API_SEARCH_URL}?api_key=${environment.API_KEY}&q=${query}&limit=${limit}&offset=${offset}&rating=${rating}&lang=${language}`;
     return API_URL;
   }
 /**
@@ -54,11 +63,19 @@ export class AppService {
  * @param urlParam received from trendingGif method
  * @returns API trending url string
  */
-  protected API_TRENDING_URL(urlParam: Partial<IAPIParam>): string {
+  protected ApiTrendingUrl(urlParam: Partial<IAPIParam>): string {
     const { offset, limit, rating, language } = urlParam;
-    const API_TRENDING_URL: string = `${environment.API_TRENDING_URL}?api_key=${environment.API_KEY}&limit=${limit}&offset=${offset}&rating=${rating}&lang=${language}`;
+    const API_TRENDING_URL: string = `${environment.API_ROOT_URL}${environment.API_TRENDING_URL}?api_key=${environment.API_KEY}&limit=${limit}&offset=${offset}&rating=${rating}&lang=${language}`;
     return API_TRENDING_URL;
  
+  }
+/**
+ * 
+ * @returns 
+ */
+  protected ApiTrendingWordsUrl(): string { 
+    const API_TRENDING_URL: string = `${environment.API_ROOT_URL}${environment.API_TRENDING_WORDS_URL}?api_key=${environment.API_KEY}`;
+    return API_TRENDING_URL; 
   }
 /**
  * 

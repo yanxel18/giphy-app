@@ -19,6 +19,57 @@
       </button>
     </mat-form-field>
   </div>
+  <div class="trending-words-container">
+    <div class="button-controll-container">
+      <button mat-mini-fab class="scroll-button" (click)="scrollLeft()">
+        <mat-icon>arrow_left </mat-icon>
+      </button>
+    </div>
+    <div class="button-words-container" #trendingWords>
+      <div
+        *ngIf="
+          searchTrendingWords | async;
+          then trendingWordsResult;
+          else trendingWordsNoResult
+        "
+      ></div>
+      <ng-template #trendingWordsResult>
+        <div
+          class="trending-words-button-container"
+          *ngFor="
+            let words of searchTrendingWords | async;
+            let i = index;
+            trackBy: trackGIFIndex
+          "
+        >
+          <button
+            mat-flat-button
+            class="button-words"
+            #tag
+            (click)="searchQuery = words; searchbar.value = words; searchGif()"
+          >
+            {{ words }}
+          </button>
+        </div>
+      </ng-template>
+      <ng-template #trendingWordsNoResult>
+        <div class="loader-trending-words-container">
+          <ngx-skeleton-loader
+            count="10"
+            appearance="line"
+            [theme]="loaderTagStyle"
+            animation="progress"
+          ></ngx-skeleton-loader>
+        </div>
+      </ng-template>
+    </div>
+    <div class="button-controll-container">
+      <button mat-mini-fab class="scroll-button" (click)="scrollRight()">
+        <mat-icon>arrow_right</mat-icon>
+      </button>
+    </div>
+  </div>
+
   <div class="search-bar-results-container mat-elevation-z4">
     <div class="search-bar-results-scroller">
       <div class="trending-container" *ngIf="!searchOrTrend">
@@ -66,6 +117,7 @@
       >
         <button
           mat-flat-button
+           
           class="show-more-button"
           (click)="loadMoreGif()"
         >
