@@ -98,10 +98,10 @@ export class CSearchbarComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   scrollRight(): void {
-    this.trendingWords.nativeElement.scrollLeft +=200;
+    this.trendingWords.nativeElement.scrollLeft +=800;
   }
   scrollLeft(): void {
-    this.trendingWords.nativeElement.scrollLeft -=200;
+    this.trendingWords.nativeElement.scrollLeft -=800;
   }
 
 
@@ -200,6 +200,9 @@ export class CSearchbarComponent implements OnInit, AfterViewInit, OnDestroy {
    */
   checkifload(event: Event): void {
     (event.target as HTMLImageElement).style.display = 'none';
+  }
+  hideShowShader(hidden: boolean): boolean {
+    return hidden
   }
   /**
    *

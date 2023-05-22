@@ -82,6 +82,11 @@
             *ngFor="let gif of gifResult; let i = index; trackBy: trackGIFIndex"
             class="image-holder"
           >
+          <div class="image-shader-container" >
+            <div class="image-shader-row-one">b</div> 
+            <div class="image-shader-row-two">a</div> 
+            <div class="image-shader-row-three">{{gif.title ==="" ? gif.username  :gif.title}}</div> 
+          </div>
             <img
               [src]="gif.images.fixed_width.webp"
               [alt]="gif.title"
@@ -91,6 +96,7 @@
               sizes="(max-width: 236px)"
               (error)="checkifload($event)"
             />
+            
           </div>
         </ng-template>
 
