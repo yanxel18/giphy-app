@@ -1,0 +1,18 @@
+<div class="image-holder">
+    <div class="image-shader-container" mat-button (click)="showImage(InGIFData)">
+        <div class="image-shader-row-one"></div>
+        <div class="image-shader-row-two"></div>
+        <div class="image-shader-row-three">
+          {{ InGIFData.title === "" ? InGIFData.username : InGIFData.title }}
+        </div>
+      </div>
+      <img
+        [src]="InGIFData.images.fixed_width.webp"
+        [alt]="InGIFData.title"
+        class="image-result mat-elevation-z4"
+        width="236"
+        height="200"
+        sizes="(max-width: 236px)"
+        (error)="checkifload($event)"
+      /> 
+</div>

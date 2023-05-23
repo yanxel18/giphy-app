@@ -10,6 +10,7 @@ import { Observable, Subscription, map } from 'rxjs';
 import { AppService } from 'src/app/app.service';
 import { IGiphyData } from 'src/models/giphy-interface';
 import { IAPIParam, ISkeletonLoader } from 'src/models/web-interface';
+import { CImageviewDialogComponent } from '../c-imageview-dialog/c-imageview-dialog.component';
 
 @Component({
   selector: 'app-c-searchbar',
@@ -198,9 +199,7 @@ export class CSearchbarComponent implements OnInit, AfterViewInit, OnDestroy {
    *
    * @param event
    */
-  checkifload(event: Event): void {
-    (event.target as HTMLImageElement).style.display = 'none';
-  }
+
   hideShowShader(hidden: boolean): boolean {
     return hidden
   }
