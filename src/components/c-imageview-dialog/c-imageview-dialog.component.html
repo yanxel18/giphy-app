@@ -1,15 +1,20 @@
- 
-    <div class="image-caption">
-        <h3>{{imageCaption}}</h3>
-    </div>
- 
- <div mat-dialog-content class="image-view-dialog-content"> 
- 
-        <img [src]="gifData.images.original.url" class="image-view" />
+<div class="image-caption">
+  <h3>{{ imageCaption }}</h3>
+</div>
 
+<div mat-dialog-content class="image-view-dialog-content">
+  <img   [hidden]="!imageOnload" [src]="gifData.images.original.url" class="image-view" (error)="checkifload($event)" 
+  (load)="imageOnload=true" (loadeddata)="imageOnload=false"/>
+
+  <div [hidden]="imageOnload"> 
+      <ngx-skeleton-loader
+        count="1"
+        appearance="line"
+        [theme]="loaderTagStyle"
+        animation="progress"
+      ></ngx-skeleton-loader> 
+  </div>
 </div>
 <div mat-dialog-actions>
-    <button mat-button mat-dialog-close>Close</button>
+  <button mat-button mat-dialog-close>Close</button>
 </div>
-
- 
