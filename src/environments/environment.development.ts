@@ -1,6 +1,7 @@
 export const environment = {
-    production: true,
+    production: false,
     API_ROOT_URL: "https://api.giphy.com/v1",
+    API_GIF_NODE_URL: "/gifs/",
     API_SEARCH_URL: "/gifs/search",
     API_KEY: "43jqIVCf9YkTdMV8DDdOFTLENgsFHS5c",
     API_TRENDING_URL: "/gifs/trending",

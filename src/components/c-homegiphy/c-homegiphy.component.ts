@@ -16,7 +16,7 @@ export class CHomegiphyComponent implements OnInit {
 
   ngOnInit(): void {
     
-    const getDefaultView: string | null = this.appService.tempGetKey('pagecountview');
+    const getDefaultView: string | null = this.appService.tempGetKey('_default');
     this.defaultDisplay =  getDefaultView === "1" ? true : false;
   }
  

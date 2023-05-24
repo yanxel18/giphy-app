@@ -8,14 +8,17 @@ import { MaterialModules } from 'src/material-modules/material-modules';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { CHomegiphyComponent } from 'src/components/c-homegiphy/c-homegiphy.component';
-import { NgOptimizedImage } from '@angular/common';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { CImagethumbnailComponent } from 'src/components/c-imagethumbnail/c-imagethumbnail.component';
+import { CImageviewDialogComponent } from 'src/components/c-imageview-dialog/c-imageview-dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CSearchbarComponent,
-    CHomegiphyComponent
+    CHomegiphyComponent,
+    CImagethumbnailComponent,
+    CImageviewDialogComponent
   ],
   imports: [ 
     BrowserModule,
@@ -24,8 +27,7 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
     HttpClientModule,
     MaterialModules,
     FormsModule,
-    ReactiveFormsModule,
-    NgOptimizedImage,
+    ReactiveFormsModule, 
     NgxSkeletonLoaderModule
   ],
   providers: [],

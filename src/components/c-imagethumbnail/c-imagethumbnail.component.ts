@@ -11,7 +11,7 @@ import { CImageviewDialogComponent } from '../c-imageview-dialog/c-imageview-dia
   providers: [AppService],
 })
 export class CImagethumbnailComponent implements OnInit {
-  @Input() InGIFData!: IGiphyData;
+  @Input() InGIFData!: IGiphyData; 
   // @Output() OutImageError = new EventEmitter<any>();
   GifNodeData!: Observable<IGiphyData>;
   

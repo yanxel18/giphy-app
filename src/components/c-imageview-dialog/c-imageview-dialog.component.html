@@ -1,5 +1,5 @@
 <div class="image-caption">
-  <h3>{{ imageCaption }}</h3>
+  <h3>{{ imageTitleShort }}</h3>
 </div>
 
 <div mat-dialog-content class="image-view-dialog-content">
@@ -16,5 +16,23 @@
   </div>
 </div>
 <div mat-dialog-actions>
-  <button mat-button mat-dialog-close>Close</button>
+  <button  class="image-buttons" matTooltip="close" mat-icon-button mat-dialog-close aria-label="Close view">
+    <mat-icon>close</mat-icon>
+  </button>
+  <span class="spacer"></span>
+  <button *ngIf="defaultDisplay" class="image-buttons" (click)="downloadGIF()" matTooltip="Download GIF" mat-icon-button aria-label="Download GIF">
+    <mat-icon>save_alt</mat-icon>
+  </button>
+  <div *ngIf="!hasSavedImage; then saveGIFTemplate; else removeGIFTemplate"></div>  
+  <ng-template #saveGIFTemplate>
+    <button  (click)="saveGif()" class="image-buttons" matTooltip="Add to collection" mat-icon-button aria-label="Liked GIF">
+      <mat-icon>bookmark_border</mat-icon>
+    </button>
+  </ng-template>
+  <ng-template #removeGIFTemplate>
+    <button  (click)="removeGIF()" class="image-buttons" matTooltip="Remove from collection" mat-icon-button aria-label="Liked GIF">
+      <mat-icon>bookmark</mat-icon>
+    </button>
+  </ng-template>
+
 </div>

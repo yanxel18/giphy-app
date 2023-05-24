@@ -8,9 +8,10 @@ import {
 } from '@angular/core';
 import { Observable, Subscription, map } from 'rxjs';
 import { AppService } from 'src/app/app.service';
-import { IGiphyData } from 'src/models/giphy-interface';
+import { IGiphyData, IGiphyPayload } from 'src/models/giphy-interface';
 import { IAPIParam, ISkeletonLoader } from 'src/models/web-interface';
 import { CImageviewDialogComponent } from '../c-imageview-dialog/c-imageview-dialog.component';
+import { DbService } from 'src/dbservice/db.service';
 
 @Component({
   selector: 'app-c-searchbar',
@@ -19,7 +20,7 @@ import { CImageviewDialogComponent } from '../c-imageview-dialog/c-imageview-dia
   providers: [AppService],
 })
 export class CSearchbarComponent implements OnInit, AfterViewInit, OnDestroy {
-  constructor(private appService: AppService) {}
+  constructor(private appService: AppService, private dbService: DbService) {}
   @ViewChild('searchbar') searchbar!: ElementRef<HTMLInputElement>;
   @ViewChild('trendingWords') trendingWords!: ElementRef<HTMLElement>;
   MAX_SEARCH_LIMIT: number = 5;
@@ -37,12 +38,12 @@ export class CSearchbarComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit() {
     this.initializePage();
   }
- 
+
   loaderTagStyle: any = {
     'background-color': '#e2e2e2',
     height: '40px',
     'border-radius': '20px',
-    width: '89px', 
+    width: '89px',
     'margin-left': '2px',
     'margin-right': '2px',
   };
@@ -68,11 +69,9 @@ export class CSearchbarComponent implements OnInit, AfterViewInit, OnDestroy {
     this.searchQuery = getSearchQuery ? getSearchQuery : '';
     this.searchOffset = getSearchOffset ? +getSearchOffset : 0;
     this.changeSearchResult(this.searchOrTrend);
-
   }
 
   getTrendingWords(): void {
- 
     this.searchTrendingWords = this.appService.trendingWordsUrl().pipe(
       map((data) => {
         return data;
@@ -84,7 +83,7 @@ export class CSearchbarComponent implements OnInit, AfterViewInit, OnDestroy {
    * @param changeSearch
    */
   changeSearchResult(changeSearch: boolean): void {
-    this.getTrendingWords()
+    this.getTrendingWords();
     changeSearch ? this.searchGif() : this.searchTrendingGif();
   }
   /**
@@ -99,12 +98,11 @@ export class CSearchbarComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   scrollRight(): void {
-    this.trendingWords.nativeElement.scrollLeft +=800;
+    this.trendingWords.nativeElement.scrollLeft += 800;
   }
   scrollLeft(): void {
-    this.trendingWords.nativeElement.scrollLeft -=800;
+    this.trendingWords.nativeElement.scrollLeft -= 800;
   }
-
 
   /**
    *
@@ -123,6 +121,9 @@ export class CSearchbarComponent implements OnInit, AfterViewInit, OnDestroy {
    *
    */
   getSearchResult(): void {
+    const existingGIF: string[] = this.dbService.GifDB.map((data) => {
+      return data.imageID;
+    })
     this.Subscriptions.map((subscription) => subscription.unsubscribe());
     if (typeof this.searchQuery === 'string') {
       this.searchQuery = this.searchQuery!.trim();
@@ -132,8 +133,16 @@ export class CSearchbarComponent implements OnInit, AfterViewInit, OnDestroy {
         this.Subscriptions.push(
           this.appService.searchGif(this.searchParamValue).subscribe((data) => {
             if (data) {
-              this.gifResult = this.gifResult.concat(data.data);
-              this.searchResultCount = data.pagination.total_count;
+              const excludeDB = data.data.filter(
+                (item) =>
+                  !existingGIF.some((d) => item.id === d)
+              ); 
+              const newPayload: IGiphyPayload = {
+                ...data,
+                data: excludeDB,
+              };
+              this.gifResult = this.gifResult.concat(newPayload.data);
+              this.searchResultCount = newPayload.pagination.total_count;
               this.hideSearchMore = false;
             }
           })
@@ -144,13 +153,24 @@ export class CSearchbarComponent implements OnInit, AfterViewInit, OnDestroy {
   /**
    *
    */
-  getSearchTrendResult(): void { 
+  getSearchTrendResult(): void {
+    const existingGIF: string[] = this.dbService.GifDB.map((data) => {
+      return data.imageID;
+    })
     this.Subscriptions.push(
       this.appService.trendingGif(this.searchParamValue).subscribe((data) => {
-        if (data) { 
-          this.gifResult = this.gifResult.concat(data.data);
+        if (data) {
+          const excludeDB = data.data.filter(
+            (item) =>
+              !existingGIF.some((d) => item.id === d)
+          ); 
+          const newPayload: IGiphyPayload = {
+            ...data,
+            data: excludeDB,
+          };
+          this.gifResult = this.gifResult.concat(newPayload.data);
+          this.searchResultCount = newPayload.pagination.total_count;
           this.hideSearchMore = false;
-          this.searchResultCount = data.pagination.total_count;
         }
       })
     );
@@ -201,7 +221,7 @@ export class CSearchbarComponent implements OnInit, AfterViewInit, OnDestroy {
    */
 
   hideShowShader(hidden: boolean): boolean {
-    return hidden
+    return hidden;
   }
   /**
    *

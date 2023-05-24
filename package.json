@@ -21,6 +21,8 @@
     "@angular/platform-browser-dynamic": "^16.0.0",
     "@angular/router": "^16.0.0",
     "@material-design-icons/font": "^0.14.7",
+    "@types/file-saver": "^2.0.5",
+    "file-saver": "^2.0.5",
     "ngx-skeleton-loader": "^7.0.0",
     "roboto-fontface": "^0.10.0",
     "rxjs": "~7.8.0",
