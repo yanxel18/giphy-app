@@ -4,7 +4,8 @@ import { AppService } from 'src/app/app.service';
 @Component({
   selector: 'app-c-homegiphy',
   templateUrl: './c-homegiphy.component.html',
-  styleUrls: ['./c-homegiphy.component.sass']
+  styleUrls: ['./c-homegiphy.component.sass'],
+  providers: [AppService]
 })
 export class CHomegiphyComponent implements OnInit {
 

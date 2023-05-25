@@ -9,18 +9,25 @@ import { IGifDB } from 'src/models/web-interface';
 export class DbService {
   constructor(private appService: AppService) {}
 
+  /**
+   *
+   */
   get GifDB(): IGifDB[] {
     const tempgifDB = this.appService.tempGetKey('_tempDB');
     const gifDB: IGifDB[] =
       typeof tempgifDB === 'string' ? JSON.parse(tempgifDB) : [];
     return gifDB;
   }
-
+  /**
+   *
+   */
   get SearchTxt(): string {
     const getSearchQuery = this.appService.tempGetKey('_searchQuery');
     return getSearchQuery ? getSearchQuery : '';
   }
-
+  /**
+   *
+   */
   getNewRowID(): number {
     const getDB: IGifDB[] = this.GifDB;
     return getDB.length > 0
@@ -29,6 +36,12 @@ export class DbService {
         })[0].rowID + 1
       : 1;
   }
+  /**
+   *
+   * @param giphy
+   * @param saveTitle
+   * @returns
+   */
   saveGIF(giphy: IGiphyData, saveTitle: string): boolean {
     const getDB: IGifDB[] = this.GifDB;
     const newGIF: IGifDB = {
@@ -44,7 +57,11 @@ export class DbService {
     const checkData = getDB.filter((g) => g.rowID === newGIF.rowID);
     return checkData.length === 1;
   }
-
+  /**
+   *
+   * @param giphy
+   * @returns
+   */
   removeGIF(giphy: IGiphyData): boolean {
     let getDB: IGifDB[] = this.GifDB;
     getDB = getDB.filter((gif) => gif.imageID !== giphy.id);
@@ -52,7 +69,11 @@ export class DbService {
     const checkData = this.GifDB.filter((g) => g.imageID === giphy.id);
     return !(checkData.length === 0);
   }
-
+  /**
+   *
+   * @param giphy
+   * @returns
+   */
   checkIfExist(giphy: IGiphyData): boolean {
     let getDB: IGifDB[] = this.GifDB;
     getDB = getDB.filter((gif) => gif.imageID === giphy.id);

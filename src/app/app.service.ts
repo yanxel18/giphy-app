@@ -26,7 +26,7 @@ export class AppService {
    */
   searchGif(searchParam: IAPIParam): Observable<IGiphyPayload> {
     return this.http.get<IGiphyPayload>(this.ApiSearchUrl(searchParam)).pipe(
-      map((res) => { 
+      map((res) => {
         return res;
       }),
       shareReplay(),
@@ -108,7 +108,11 @@ export class AppService {
     const API_TRENDING_URL: string = `${environment.API_ROOT_URL}${environment.API_TRENDING_WORDS_URL}?api_key=${environment.API_KEY}`;
     return API_TRENDING_URL;
   }
-
+  /**
+   *
+   * @param gifNodeID
+   * @returns
+   */
   protected ApiGIFNodeURL(gifNodeID: string): string {
     const API_GIF_NODE_URL: string = `${environment.API_ROOT_URL}${environment.API_GIF_NODE_URL}${gifNodeID}?api_key=${environment.API_KEY}`;
     return API_GIF_NODE_URL;
@@ -130,8 +134,23 @@ export class AppService {
   tempGetKey(key: string): string | null {
     return localStorage.getItem(key);
   }
-
-
+  /**
+   *
+   * @param title
+   * @returns
+   */
+  titleShortener(title: string): string {
+    const maxTitleLength = 25;
+    const startIndex = 0;
+    return title.length > maxTitleLength
+      ? title.substring(startIndex, maxTitleLength) + '...'
+      : title;
+  }
+  /**
+   *
+   * @param gifURL
+   * @returns
+   */
   downloadGIF(gifURL: string): Observable<any> {
     return this.http.get<any>(gifURL, {
       responseType: 'blob' as 'json',

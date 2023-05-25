@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, Title } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CSearchbarComponent } from 'src/components/c-searchbar/c-searchbar.component';
@@ -11,6 +11,8 @@ import { CHomegiphyComponent } from 'src/components/c-homegiphy/c-homegiphy.comp
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { CImagethumbnailComponent } from 'src/components/c-imagethumbnail/c-imagethumbnail.component';
 import { CImageviewDialogComponent } from 'src/components/c-imageview-dialog/c-imageview-dialog.component';
+import { AppService } from './app.service';
+import { DbService } from 'src/dbservice/db.service';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,11 @@ import { CImageviewDialogComponent } from 'src/components/c-imageview-dialog/c-i
     ReactiveFormsModule, 
     NgxSkeletonLoaderModule
   ],
-  providers: [],
+  providers: [
+    AppService,
+    DbService,
+    Title
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

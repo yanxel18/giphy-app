@@ -18,6 +18,10 @@ export class CImagethumbnailComponent implements OnInit {
   imageCaption!: string;
   constructor(private appService: AppService,
     private viewGIFDialog: MatDialog) {}
+  /**
+   * 
+   * @param imageData 
+   */
   showImage(imageData: IGiphyData): void {
     this.viewGIFDialog.open(CImageviewDialogComponent, {
       disableClose: false,
@@ -26,20 +30,33 @@ export class CImagethumbnailComponent implements OnInit {
       data: imageData
     }); 
   }
+  /**
+   * 
+   * @param event 
+   */
   checkifload(event: Event): void {
     (event.target as HTMLImageElement).style.display = 'none';
   }
-  ngOnInit() {
+  /**
+   * 
+   */
+  ngOnInit(): void {
     this.imageCaption = this.titleShortener(
       this.InGIFData.title === ''
         ? this.InGIFData.username
         : this.InGIFData.username === '' ? this.InGIFData.slug : this.InGIFData.title);
   }
+  /**
+   * 
+   * @param title 
+   * @returns 
+   */
   titleShortener(title: string): string {
-    if (title.length > 25) {
-      return title.substring(0, 25) + '...';
-    }else return title 
+    return this.appService.titleShortener(title);
   }
+  /**
+   * 
+   */
   loadGifNode(): void {
     this.GifNodeData = this.appService.nodeGIF(this.InGIFData.id).pipe(
       map((data) => {

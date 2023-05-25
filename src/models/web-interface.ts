@@ -11,6 +11,10 @@ export interface ISkeletonLoader {
   'border-radius'?: string;
   width?: string;
   margin?: string;
+  'margin-top'?: string;
+  'margin-bottom'?: string;
+  'margin-left'?: string;
+  'margin-right'?: string;
 }
 
 export interface IGifDB {
@@ -21,3 +25,4 @@ export interface IGifDB {
   viewThumbnail: string;
   searchTags: string[];
 }
+
