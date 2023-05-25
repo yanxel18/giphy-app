@@ -27,7 +27,7 @@ export class CSearchbarComponent implements OnInit, AfterViewInit, OnDestroy {
   Subscriptions: Subscription[] = [];
   searchQuery: string = '';
   searchOrTrend: boolean = false;
-  searchLimit: number = 1; //24 is original (change when at home development)
+  searchLimit: number = 24; //24 is original (change when at home development)
   searchOffset: number = 0;
   searchTrendingWords!: Observable<string[]>;
   gifResult: IGiphyData[] = [];
@@ -157,8 +157,7 @@ export class CSearchbarComponent implements OnInit, AfterViewInit, OnDestroy {
   /**
    *
    */
-  getSearchTrendResult(): void {
-    
+  getSearchTrendResult(): void { 
     this.Subscriptions.push(
       this.appService.trendingGif(this.searchParamValue).subscribe((data) => {
         if (data) {

@@ -98,6 +98,6 @@ export class CImageviewDialogComponent implements OnInit, OnDestroy {
    * 
    */
   ngOnDestroy(): void {
-    this.Subscriptions.map((sub) => sub.unsubscribe());
+    this.Subscriptions.forEach((sub) => sub.unsubscribe());
   }
 }

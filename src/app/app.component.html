@@ -1,12 +1,15 @@
-<div class="main-container" [class.is-mobile]="mobileQuery.matches">
+<div class="main-container">
   <mat-toolbar class="main-toolbar">
-    <a class="app-name" href="/">GiFSuki!</a>
-    <span class="spacer"></span>
+    <div class="title-container">
+      <a class="app-name" href="/">GiFSuki!</a>
+    </div>
+    
+ 
   </mat-toolbar>
   <mat-sidenav-container
     hasBackdrop="true"
     class="sidenav-container"
-    [style.marginTop.px]="mobileQuery.matches ? 56 : 0"
+    
   >
     <mat-sidenav-content class="side-nav-content">
       <div class="home-background"> 

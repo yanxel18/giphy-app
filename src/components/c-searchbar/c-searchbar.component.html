@@ -21,7 +21,7 @@
   </div>
   <div class="trending-words-container">
     <div class="button-controll-container">
-      <button mat-mini-fab class="scroll-button" (click)="scrollLeft()">
+      <button mat-mini-fab class="scroll-button mat-elevation-z0" (click)="scrollLeft()">
         <mat-icon>arrow_left </mat-icon>
       </button>
     </div>
@@ -70,7 +70,7 @@
     </div>
   </div>
 
-  <div class="search-bar-results-container mat-elevation-z4">
+  <div class="search-bar-results-container mat-elevation-z1">
     <div class="search-bar-results-scroller">
       <div class="trending-container" *ngIf="!searchOrTrend">
         <h1>Trending Gifs!</h1>
