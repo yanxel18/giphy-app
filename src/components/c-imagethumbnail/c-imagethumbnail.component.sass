@@ -3,25 +3,26 @@
     flex-direction: column
     color: #ffffff 
     height: 200px
-    width: 235px 
+    width: 236px 
     border-radius: 20px
     position: absolute
     z-index: 100 
 .image-shader-row-one
     display: flex 
-    height: 30px
+    height: 30px 
 .image-shader-row-two
     display: flex 
-    height: 130px
+    height: 130px 
 .image-shader-row-three
     display: flex
+    align-items: baseline
     padding-left:4px
-    font-size: 14px
-    line-height: 16px 
-    height: 40px
+    padding-top: 14px
+    font-size: 14px 
+    height: 26px
     border-bottom-right-radius: 4px
     border-bottom-left-radius: 4px
-    background-image: linear-gradient(to bottom, rgba(255,0,0,0), #323232)
+    background-image: linear-gradient(to bottom, rgba(255,0,0,0), #070707)
 .image-result
     border-radius:4px
     margin: 0px
@@ -32,3 +33,32 @@
     &:hover
         .image-shader-container
             display: block !important
+        .collection-button-container
+            display: block !important
+.collection-button-container
+    position: absolute
+    right: 0px
+    display: none  
+    z-index: 110
+.save-image-button
+    background-color: rgba(255,0 ,0 ,0)
+    color: #ffe600 !important
+    width: 48px !important
+    height: 48px !important
+    padding-right: 10px !important
+    display: inline-flex !important
+    align-items: center
+    justify-content: center
+    & > *[role=img]
+        width: 24px
+        height: 24px
+        font-size: 24px
+        svg
+            width: 24px
+            height: 24px
+    ::ng-deep .mat-mdc-button-touch-target
+        width: 38px !important
+        height: 38px !important  
+ 
+    
+

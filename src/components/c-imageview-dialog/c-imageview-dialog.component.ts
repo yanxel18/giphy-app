@@ -81,6 +81,14 @@ export class CImageviewDialogComponent implements OnInit, OnDestroy {
       this.imageTitleLong
     );
   }
+
+  closeDialog(): void {
+    this.dialogRef.close(
+      {
+        isSave: this.hasSavedImage
+      }
+    );
+  }
   /**
    * 
    */

@@ -1,9 +1,39 @@
 <div class="image-holder">
+  <div class="collection-button-container">  
+    <div
+    
+    *ngIf="!hasSavedImage; then saveGIFTemplate; else removeGIFTemplate"
+  ></div>
+  <ng-template #saveGIFTemplate>
+    <button
+      (click)="saveGif()"
+      class="save-image-button" 
+      mat-icon-button
+      aria-label="Liked GIF"
+    >
+      <mat-icon>bookmark_border</mat-icon>
+    </button>
+  </ng-template>
+  <ng-template #removeGIFTemplate>
+    <button
+      (click)="removeGIF()"
+      class="save-image-button" 
+      mat-icon-button
+      aria-label="Liked GIF"
+    >
+      <mat-icon>bookmark</mat-icon>
+    </button>
+  </ng-template>
+</div>
+
     <div class="image-shader-container" mat-button (click)="showImage(InGIFData)">
-        <div class="image-shader-row-one"></div>
+        <div class="image-shader-row-one">
+
+
+        </div>
         <div class="image-shader-row-two"></div>
         <div class="image-shader-row-three">
-          {{ imageCaption  }}
+          {{ imageTitleShort  }}
         </div>
       </div>
       <img
@@ -15,4 +45,5 @@
         sizes="(max-width: 236px)"
         (error)="checkifload($event)"
       /> 
+
 </div>

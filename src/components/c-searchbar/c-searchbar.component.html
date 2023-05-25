@@ -1,7 +1,7 @@
 <div class="search-area-container">
   <div class="search-bar-container">
     <mat-form-field class="search-text" subscriptSizing="dynamic">
-      <input
+      <input 
         [(ngModel)]="searchQuery"
         matInput
         placeholder="Find your favorite GIFS!"
@@ -21,7 +21,7 @@
   </div>
   <div class="trending-words-container">
     <div class="button-controll-container">
-      <button mat-mini-fab class="scroll-button mat-elevation-z0" (click)="scrollLeft()">
+      <button mat-icon-button class="scroll-button mat-elevation-z1" (click)="scrollLeft()">
         <mat-icon>arrow_left </mat-icon>
       </button>
     </div>
@@ -64,7 +64,7 @@
       </ng-template>
     </div>
     <div class="button-controll-container">
-      <button mat-mini-fab class="scroll-button" (click)="scrollRight()">
+      <button mat-icon-button class="scroll-button mat-elevation-z1" (click)="scrollRight()">
         <mat-icon>arrow_right</mat-icon>
       </button>
     </div>

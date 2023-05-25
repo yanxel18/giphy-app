@@ -26,3 +26,6 @@ export interface IGifDB {
   searchTags: string[];
 }
 
+export interface ICloseImageDialog {
+  isSave?: boolean;
+}

@@ -1,34 +1,43 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Observable, Subscription, map } from 'rxjs';
 import { AppService } from 'src/app/app.service';
 import { IGiphyData } from 'src/models/giphy-interface';
 import { MatDialog } from '@angular/material/dialog';
 import { CImageviewDialogComponent } from '../c-imageview-dialog/c-imageview-dialog.component';
+import { DbService } from 'src/dbservice/db.service';
+import { ICloseImageDialog } from 'src/models/web-interface';
 @Component({
   selector: 'app-c-imagethumbnail',
   templateUrl: './c-imagethumbnail.component.html',
   styleUrls: ['./c-imagethumbnail.component.sass'],
-  providers: [AppService],
+  providers: [AppService,DbService],
 })
-export class CImagethumbnailComponent implements OnInit {
+export class CImagethumbnailComponent implements OnInit, OnDestroy {
   @Input() InGIFData!: IGiphyData; 
   // @Output() OutImageError = new EventEmitter<any>();
   GifNodeData!: Observable<IGiphyData>;
-  
-  imageCaption!: string;
+  hasSavedImage: boolean = false;
+  imageTitleShort!: string;
+  imageTitleLong!: string;
+  Subscription: Subscription [] = []
   constructor(private appService: AppService,
+    private dbService: DbService,
     private viewGIFDialog: MatDialog) {}
   /**
    * 
    * @param imageData 
    */
   showImage(imageData: IGiphyData): void {
-    this.viewGIFDialog.open(CImageviewDialogComponent, {
-      disableClose: false,
+    const dialog = this.viewGIFDialog.open(CImageviewDialogComponent, {
+      disableClose: true,
       minWidth: '300px',
       minHeight: '200px', 
       data: imageData
     }); 
+    this.Subscription.push(dialog.afterClosed().subscribe( (result: ICloseImageDialog)=> {
+      if (result)  result.isSave  ? this.hasSavedImage = true : this.hasSavedImage = false;
+      
+    }));
   }
   /**
    * 
@@ -41,11 +50,15 @@ export class CImagethumbnailComponent implements OnInit {
    * 
    */
   ngOnInit(): void {
-    this.imageCaption = this.titleShortener(
+    this.imageTitleLong =
       this.InGIFData.title === ''
         ? this.InGIFData.username
-        : this.InGIFData.username === '' ? this.InGIFData.slug : this.InGIFData.title);
-  }
+        : this.InGIFData.username === ''
+        ? this.InGIFData.slug
+        : this.InGIFData.title;
+    this.imageTitleShort = this.titleShortener(this.imageTitleLong);
+    this.hasSavedImage = this.dbService.checkIfExist(this.InGIFData);
+  } 
   /**
    * 
    * @param title 
@@ -53,6 +66,18 @@ export class CImagethumbnailComponent implements OnInit {
    */
   titleShortener(title: string): string {
     return this.appService.titleShortener(title);
+  }
+  saveGif(): void {
+    this.hasSavedImage = this.dbService.saveGIF(
+      this.InGIFData,
+      this.imageTitleLong
+    );
+  }
+  /**
+   * 
+   */
+  removeGIF(): void {
+    this.hasSavedImage = this.dbService.removeGIF(this.InGIFData);
   }
   /**
    * 
@@ -63,5 +88,8 @@ export class CImagethumbnailComponent implements OnInit {
         return data;
       })
     );
+  }
+  ngOnDestroy(): void {
+    this.Subscription.forEach((sub) => sub.unsubscribe());
   }
 }

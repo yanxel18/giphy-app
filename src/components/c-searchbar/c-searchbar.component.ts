@@ -50,7 +50,7 @@ export class CSearchbarComponent implements OnInit, AfterViewInit, OnDestroy {
   loaderStyle: ISkeletonLoader = {
     'background-color': '#e2e2e2',
     height: '200px',
-    'border-radius': '16px',
+    'border-radius': '4px',
     width: '236px',
     'margin-top': '4px',
     'margin-bottom': '4px',
