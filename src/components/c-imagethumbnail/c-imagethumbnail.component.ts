@@ -98,17 +98,7 @@ export class CImagethumbnailComponent implements OnInit, OnDestroy {
   removeGIF(): void {
     this.hasSavedImage = this.dbService.removeGIF(this.InGIFData);
     this.OutSaveStatus.emit();
-  }
-  /**
-   *
-   */
-  // loadGifNode(): void {
-  //   this.GifNodeData = this.appService.nodeGIF(this.InGIFData.id).pipe(
-  //     map((data) => {
-  //       return data;
-  //     })
-  //   );
-  // }
+  } 
   ngOnDestroy(): void {
     this.Subscription.forEach((sub) => sub.unsubscribe());
   }
