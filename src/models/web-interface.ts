@@ -19,11 +19,14 @@ export interface ISkeletonLoader {
 
 export interface IGifDB {
   rowID: number;
-  imageID: string;
-  saveTitle: string;
-  viewUrl: string;
-  viewThumbnail: string;
-  searchTags: string[];
+  id: string;
+  title?: string;
+  viewUrl?: string;
+  viewThumbnail?: string; 
+  searchTags?: string[];
+  username?: string,
+  slug?: string
+  download?: number;
 }
 
 export interface ICloseImageDialog {

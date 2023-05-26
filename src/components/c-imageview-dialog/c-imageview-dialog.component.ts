@@ -5,7 +5,7 @@ import { IGiphyData } from 'src/models/giphy-interface';
 import * as filesaver from 'file-saver';
 import { Subscription } from 'rxjs';
 import { DbService } from 'src/dbservice/db.service';
-import { ISkeletonLoader } from 'src/models/web-interface';
+import { IGifDB, ISkeletonLoader } from 'src/models/web-interface';
 @Component({
   selector: 'app-c-imageview-dialog',
   templateUrl: './c-imageview-dialog.component.html',
@@ -13,23 +13,23 @@ import { ISkeletonLoader } from 'src/models/web-interface';
   providers: [AppService, DbService],
 })
 export class CImageviewDialogComponent implements OnInit, OnDestroy {
-  gifReceiveData!: IGiphyData;
-  imageTitleShort!: string;
-  imageTitleLong!: string;
+  gifReceiveData!: IGifDB;
+  imageTitleShort: string | null = null;
+  imageTitleLong: string | null= null;;
   imageOnload: boolean = false;
   Subscriptions: Subscription[] = [];
-  defaultDisplay: boolean = false;
-  hasSavedImage: boolean = false;
+  isDownload: boolean = false;
+  hasSavedImage!: boolean;
   constructor(
     public dialogRef: MatDialogRef<CImageviewDialogComponent>,
     private appService: AppService,
     private dbService: DbService,
-    @Inject(MAT_DIALOG_DATA) public gifData: IGiphyData
+    @Inject(MAT_DIALOG_DATA) public gifData: IGifDB
   ) {
     this.gifReceiveData = gifData;
     const getDefaultView: string | null =
       this.appService.tempGetKey('_default');
-    this.defaultDisplay = getDefaultView === '1' ? true : false;
+    this.isDownload = gifData.download === 1 ? true : false;
   }
   loaderTagStyle: ISkeletonLoader = {
     'background-color': '#e2e2e2',
@@ -42,33 +42,39 @@ export class CImageviewDialogComponent implements OnInit, OnDestroy {
    * 
    */
   ngOnInit(): void {
-    this.imageTitleLong =
-      this.gifReceiveData.title === ''
-        ? this.gifReceiveData.username
-        : this.gifReceiveData.username === ''
-        ? this.gifReceiveData.slug
-        : this.gifReceiveData.title;
+    this.initializeDialog();
+  }
+  initializeDialog(): void {
+    const newtitle = this.gifReceiveData.title === ''
+    ? this.gifReceiveData.username
+    : this.gifReceiveData.username === ''
+    ? this.gifReceiveData.slug
+: this.gifReceiveData.title;  
+    this.imageTitleLong = (
+      newtitle) ? newtitle : '';
     this.imageTitleShort = this.titleShortener(this.imageTitleLong);
     this.hasSavedImage = this.dbService.checkIfExist(this.gifReceiveData);
   }
+ 
   /**
    * 
    * @param title 
    * @returns 
    */
-  titleShortener(title: string): string {
+  titleShortener(title: string | null): string | null {
     return this.appService.titleShortener(title);
   }
   /**
    * 
    */
   downloadGIF(): void {
+    if (this.gifData.viewUrl)
     this.Subscriptions.push(
       this.appService
-        .downloadGIF(this.gifData.images.original.url)
+        .downloadGIF(this.gifData.viewUrl)
         .subscribe((data) => {
           const blob: any = new Blob([data], { type: 'image/gif' });
-          filesaver.saveAs(blob, this.imageTitleLong);
+          filesaver.saveAs(blob, this.imageTitleLong ? this.imageTitleLong : '');
         })
     );
   }
@@ -76,6 +82,7 @@ export class CImageviewDialogComponent implements OnInit, OnDestroy {
    * 
    */
   saveGif(): void {
+    if (this.imageTitleLong) 
     this.hasSavedImage = this.dbService.saveGIF(
       this.gifData,
       this.imageTitleLong

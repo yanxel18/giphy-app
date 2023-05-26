@@ -2,7 +2,7 @@
   <div class="collection-button-container">  
     <div
     
-    *ngIf="!hasSavedImage; then saveGIFTemplate; else removeGIFTemplate"
+    *ngIf="hasSavedImage; then removeGIFTemplate ; else saveGIFTemplate"
   ></div>
   <ng-template #saveGIFTemplate>
     <button
@@ -10,6 +10,7 @@
       class="save-image-button" 
       mat-icon-button
       aria-label="Liked GIF"
+      matTooltip="Add to collection"
     >
       <mat-icon>bookmark_border</mat-icon>
     </button>
@@ -19,7 +20,8 @@
       (click)="removeGIF()"
       class="save-image-button" 
       mat-icon-button
-      aria-label="Liked GIF"
+      aria-label="Remove GIF"
+      matTooltip="Remove from collection"
     >
       <mat-icon>bookmark</mat-icon>
     </button>
@@ -37,7 +39,7 @@
         </div>
       </div>
       <img
-        [src]="InGIFData.images.fixed_width.webp"
+        [src]="InGIFData.viewThumbnail"
         [alt]="InGIFData.title"
         class="image-result mat-elevation-z8"
         width="236"

@@ -4,7 +4,7 @@
       <input 
         [(ngModel)]="searchQuery"
         matInput
-        placeholder="Find your favorite GIFS!"
+        placeholder="Find your favorite GiFs"
         #searchbar
         maxlength="40"
         (keydown.enter)="searchGif()"
@@ -73,7 +73,7 @@
   <div class="search-bar-results-container mat-elevation-z1">
     <div class="search-bar-results-scroller">
       <div class="trending-container" *ngIf="!searchOrTrend">
-        <h1>Trending Gifs!</h1>
+        <h1>Trending GiFs!</h1>
       </div>
       <div class="search-bar-results">
         <div *ngIf="gifResult.length > 0; then withresult; else noresult"></div>
@@ -81,14 +81,13 @@
           <div
             *ngFor="let gif of gifResult; let i = index; trackBy: trackGIFIndex"
           >
-          <app-c-imagethumbnail [InGIFData]="gif"></app-c-imagethumbnail>
+          <app-c-imagethumbnail [InGIFData]="gif" (OutSaveStatus)="refreshCollection()"></app-c-imagethumbnail>
           </div>
         </ng-template>
 
         <ng-template #noresult>
           <div
-            class="search-results-skeleton"
-            *ngFor="let data of skeletonLoader; trackBy: trackGIFIndex"
+            class="search-results-skeleton" 
           >
             <ngx-skeleton-loader
               count="20"
@@ -122,4 +121,6 @@
     </div>
   </div>
 </div>
-　
+　<div class="collection-area-container mat-elevation-z1">
+  <app-c-homegiphy (OutRefreshSearch)="searchGif()"></app-c-homegiphy>
+</div>

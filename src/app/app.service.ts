@@ -139,12 +139,14 @@ export class AppService {
    * @param title
    * @returns
    */
-  titleShortener(title: string): string {
+  titleShortener(title: string | null): string  | null{
+    if (typeof title === 'string') {
     const maxTitleLength = 25;
     const startIndex = 0;
     return title.length > maxTitleLength
       ? title.substring(startIndex, maxTitleLength) + '...'
       : title;
+    } return null;
   }
   /**
    *

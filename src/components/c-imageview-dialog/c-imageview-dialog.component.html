@@ -5,7 +5,7 @@
 <div mat-dialog-content class="image-view-dialog-content">
   <img
     [hidden]="!imageOnload"
-    [src]="gifData.images.original.url"
+    [src]="gifData.viewUrl"
     class="image-view"
     (error)="checkifload($event)"
     (load)="imageOnload = true"
@@ -33,7 +33,7 @@
   </button>
   <span class="spacer"></span>
   <button
-    *ngIf="defaultDisplay"
+    *ngIf="isDownload"
     class="image-buttons"
     (click)="downloadGIF()"
     matTooltip="Download GIF"
@@ -51,6 +51,7 @@
       class="image-buttons" 
       mat-icon-button
       aria-label="Liked GIF"
+      matTooltip="Add to collections"
     >
       <mat-icon>bookmark_border</mat-icon>
     </button>
@@ -60,7 +61,8 @@
       (click)="removeGIF()"
       class="image-buttons" 
       mat-icon-button
-      aria-label="Liked GIF"
+      aria-label="Remove GIF"
+      matTooltip="Remove from collection"
     >
       <mat-icon>bookmark</mat-icon>
     </button>
