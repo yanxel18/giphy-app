@@ -1,6 +1,49 @@
+<div class="collection-headertxt-container">
+  <div class="collection-text-container">
+    <div class="collection-icon-container">
+      <mat-icon>collections</mat-icon>
+    </div>
+    <div class="collection-text">
+      <h2>My Collections</h2>
+    </div>
+  </div>
+</div>
 <div class="search-sort-container">
-  search area
-  <button mat-button (click)="getDatabase()">test</button>
+  <div class="search-bar-container">
+    <mat-form-field class="search-text" subscriptSizing="dynamic">
+      <input
+        matInput
+        placeholder="Search GIFs collection.."
+        #searchbar
+        maxlength="40"
+        [(ngModel)]="searchQuery"
+        (ngModelChange)="searchCollections()"
+      />
+      <button matSuffix mat-icon-button class="search-button-suffix">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+  <div class="sortbydate-container">
+    <button
+    class="sort-button"
+    mat-flat-button
+    [matMenuTriggerFor]="sort"
+  >
+  <mat-icon>sort</mat-icon>
+  Sort GIFs
+  </button>
+  <mat-menu #sort="matMenu" xPosition="before" class="sortmenu-display">
+    <button mat-menu-item  (click)="sortGifByDate(0)">
+      <mat-icon>arrow_drop_up</mat-icon> 
+      <span>Newest to Oldest</span>
+    </button>
+    <button mat-menu-item   (click)="sortGifByDate(1)">  
+      <mat-icon>arrow_drop_down</mat-icon>
+      <span>Oldest to Newest</span>
+    </button> 
+  </mat-menu>
+  </div>
 </div>
 <div class="collection-results-container">
   <div class="collection-results-scroller">
@@ -11,12 +54,13 @@
           *ngFor="let gif of gifResult; let i = index"
           cdkDropList
           [cdkDropListData]="i"
+          matTooltip="Drag to sort"
         >
           <div
             cdkDrag
             [cdkDragData]="i"
             (cdkDragEntered)="dragEntered($event)"
-            (cdkDragMoved)="dragMoved($event)"
+            (cdkDragMoved)="dragMoved()"
             (cdkDragDropped)="dragDropped($event)"
           >
             <app-c-imagethumbnail

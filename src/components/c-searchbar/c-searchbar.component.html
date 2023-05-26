@@ -1,7 +1,7 @@
 <div class="search-area-container">
   <div class="search-bar-container">
     <mat-form-field class="search-text" subscriptSizing="dynamic">
-      <input 
+      <input
         [(ngModel)]="searchQuery"
         matInput
         placeholder="Find your favorite GiFs"
@@ -21,7 +21,11 @@
   </div>
   <div class="trending-words-container">
     <div class="button-controll-container">
-      <button mat-icon-button class="scroll-button mat-elevation-z1" (click)="scrollLeft()">
+      <button
+        mat-icon-button
+        class="scroll-button mat-elevation-z1"
+        (click)="scrollLeft()"
+      >
         <mat-icon>arrow_left </mat-icon>
       </button>
     </div>
@@ -64,7 +68,11 @@
       </ng-template>
     </div>
     <div class="button-controll-container">
-      <button mat-icon-button class="scroll-button mat-elevation-z1" (click)="scrollRight()">
+      <button
+        mat-icon-button
+        class="scroll-button mat-elevation-z1"
+        (click)="scrollRight()"
+      >
         <mat-icon>arrow_right</mat-icon>
       </button>
     </div>
@@ -78,17 +86,18 @@
       <div class="search-bar-results">
         <div *ngIf="gifResult.length > 0; then withresult; else noresult"></div>
         <ng-template #withresult>
-          <div
-            *ngFor="let gif of gifResult; let i = index; trackBy: trackGIFIndex"
+          <div  *ngFor="let gif of gifResult; let i = index; trackBy: trackGIFIndex"
           >
-          <app-c-imagethumbnail [InGIFData]="gif" (OutSaveStatus)="refreshCollection()"></app-c-imagethumbnail>
+            <app-c-imagethumbnail
+              
+              [InGIFData]="gif"
+              (OutSaveStatus)="refreshCollection()"
+            ></app-c-imagethumbnail>
           </div>
         </ng-template>
 
         <ng-template #noresult>
-          <div
-            class="search-results-skeleton" 
-          >
+          <div class="search-results-skeleton">
             <ngx-skeleton-loader
               count="20"
               appearance="line"
@@ -121,6 +130,7 @@
     </div>
   </div>
 </div>
-　<div class="collection-area-container mat-elevation-z1">
+　
+<div class="collection-area-container mat-elevation-z1">
   <app-c-homegiphy (OutRefreshSearch)="searchGif()"></app-c-homegiphy>
 </div>

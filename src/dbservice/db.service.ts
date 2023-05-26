@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AppService } from 'src/app/app.service';
 import { IGiphyData } from 'src/models/giphy-interface';
 import { IGifDB } from 'src/models/web-interface';
-
+import * as moment from 'moment';
 @Injectable({
   providedIn: 'root',
 })
@@ -51,6 +51,8 @@ export class DbService {
       viewUrl: giphy.viewUrl,
       viewThumbnail: giphy.viewThumbnail, 
       searchTags: [saveTitle, this.SearchTxt],
+      savedate: moment().format('YYYY-MM-DD H:mm:ss ')
+      
     };
     getDB.push(newGIF);
     this.appService.tempStoreKey('_tempDB', JSON.stringify(getDB));

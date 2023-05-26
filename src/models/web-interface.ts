@@ -27,6 +27,7 @@ export interface IGifDB {
   username?: string,
   slug?: string
   download?: number;
+  savedate?: string;
 }
 
 export interface ICloseImageDialog {

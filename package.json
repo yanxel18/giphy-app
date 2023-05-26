@@ -23,6 +23,7 @@
     "@material-design-icons/font": "^0.14.7",
     "@types/file-saver": "^2.0.5",
     "file-saver": "^2.0.5",
+    "moment": "^2.29.4",
     "ngx-skeleton-loader": "^7.0.0",
     "roboto-fontface": "^0.10.0",
     "rxjs": "~7.8.0",

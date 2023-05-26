@@ -121,7 +121,7 @@ export class CSearchbarComponent implements OnInit, AfterViewInit, OnDestroy {
       offset: this.searchOffset,
       limit: this.searchLimit,
       rating: 'g',
-      language: 'en',
+      language: 'ja',
     };
     return searchParam;
   }

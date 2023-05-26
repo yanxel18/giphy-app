@@ -32,7 +32,7 @@ export class CHomegiphyComponent implements OnInit {
   CSearchBar!: CSearchbarComponent;
 
   gifResult: IGifDB[] = [];
-  public gitResultCopy: any = [];
+  searchQuery: string = '';
   constructor(private appService: AppService, private dbService: DbService) {}
   loaderStyle: ISkeletonLoader = {
     'background-color': '#e2e2e2',
@@ -53,6 +53,16 @@ export class CHomegiphyComponent implements OnInit {
   trackGIFIndex(index: number): number {
     return index;
   }
+  sortGifByDate(order: number): void {
+    this.gifResult.sort((a, b) => {
+      if (a.savedate && b.savedate) {
+        if (order === 0) return new Date(b.savedate).getTime() - new Date(a.savedate).getTime() ; 
+        if (order === 1) return new Date(a.savedate).getTime() - new Date(b.savedate).getTime();
+      }
+      return 0;
+    });
+    this.appService.tempStoreKey('_tempDB', JSON.stringify(this.gifResult));
+  }
   getDatabase(): void {
     this.gifResult = this.dbService.GifDB.map((item) => {
       return {
@@ -60,6 +70,17 @@ export class CHomegiphyComponent implements OnInit {
         download: 1,
       };
     });
+  }
+
+  searchCollections(): void {
+    this.searchQuery = this.searchQuery.trim();
+    if (this.searchQuery.length > 0) {
+      this.gifResult = this.gifResult.filter((x) =>
+        x.searchTags?.some((w) =>
+          w.toLowerCase().includes(this.searchQuery.toLowerCase())
+        )
+      );
+    } else this.getDatabase();
   }
 
   refreshData(): void {
@@ -93,7 +114,7 @@ export class CHomegiphyComponent implements OnInit {
     }
   }
 
-  dragMoved(event: CdkDragMove<number>): void {
+  dragMoved(): void {
     if (!this.dropListContainer || !this.dragDropInfo) return;
 
     const placeholderElement =

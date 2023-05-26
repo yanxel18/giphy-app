@@ -1,10 +1,10 @@
 <div class="image-holder">
-  <div class="collection-button-container">  
-    <div
-    
+  <div class="collection-button-container">   
+    <div 
     *ngIf="hasSavedImage; then removeGIFTemplate ; else saveGIFTemplate"
   ></div>
   <ng-template #saveGIFTemplate>
+
     <button
       (click)="saveGif()"
       class="save-image-button" 
