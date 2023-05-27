@@ -37,6 +37,10 @@ export class CSearchbarComponent implements OnInit, AfterViewInit, OnDestroy {
   hideSearchMore: boolean = true;
   componentTitle: string = "Search GIF";
   pageCurrentTitle: string = this.title.getTitle();
+
+  /**
+   * initialized the page by triggering the initializedPage() method.
+   */
   ngOnInit(): void {
     this.initializePage();
   }
@@ -61,11 +65,14 @@ export class CSearchbarComponent implements OnInit, AfterViewInit, OnDestroy {
     'margin-right': '8px',
   };
 
+  /**
+   * Set title to the browser with the search keywords.
+   */
   setTitle(): void {
     this.title.setTitle(`${this.searchQuery}-${this.title.getTitle()}-${this.componentTitle}`);
   }
   /**
-   *
+   * Initialized all the page components and restores the last state of the component
    */
   initializePage(): void {
     const getSearchOrTrend: string | null =
@@ -78,7 +85,10 @@ export class CSearchbarComponent implements OnInit, AfterViewInit, OnDestroy {
     
     this.changeSearchResult(this.searchOrTrend);
   }
-
+  /**
+   * Calling this method to retrieve all trending words from the GIPHY URL and 
+   * use it as search query.
+   */
   getTrendingWords(): void {
     this.searchTrendingWords = this.appService.trendingWordsUrl().pipe(
       map((data) => {
@@ -88,14 +98,14 @@ export class CSearchbarComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   /**
    *
-   * @param changeSearch
+   * @param changeSearch if the search is from normal search or trending search
    */
   changeSearchResult(changeSearch: boolean): void {
     this.getTrendingWords();
     changeSearch ? this.searchGif() : this.searchTrendingGif();
   }
   /**
-   *
+   *This method shows more results upon trigger.
    */
   loadMoreGif(): void {
     const OFFSET_ADDITIONAL = 24;
@@ -104,16 +114,22 @@ export class CSearchbarComponent implements OnInit, AfterViewInit, OnDestroy {
     this.Subscriptions.map((subscription) => subscription.unsubscribe());
     this.searchOrTrend ? this.getSearchResult() : this.getSearchTrendResult();
   }
-
+  /**
+   * Scroll the trending words to the right.
+   */
   scrollRight(): void {
     this.trendingWords.nativeElement.scrollLeft += 800;
   }
+  /**
+   * Scroll the trending words to the left
+   */
   scrollLeft(): void {
     this.trendingWords.nativeElement.scrollLeft -= 800;
   }
 
   /**
-   *
+   * Get Method to retrieve all search parameters including
+   * query, offset,limit, rating and language.
    */
   get searchParamValue(): IAPIParam {
     const searchParam: IAPIParam = {
@@ -126,7 +142,7 @@ export class CSearchbarComponent implements OnInit, AfterViewInit, OnDestroy {
     return searchParam;
   }
   /**
-   *
+   *Get Search results from GIPHY API Url
    */
   getSearchResult(): void { 
     this.Subscriptions.map((subscription) => subscription.unsubscribe());
@@ -166,14 +182,17 @@ export class CSearchbarComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     }
   }
-
+/**
+ * 
+ * @returns all the list of existing IDs of stored GIFS to use for excluding results from search.
+ */
   getExistingGIF(): string[] {
     return this.dbService.GifDB.map((data) => {
       return data.id;
     });
   }
   /**
-   *
+   * Displays all the trending GIFS.
    */
   getSearchTrendResult(): void { 
     this.Subscriptions.push(
@@ -236,6 +255,9 @@ export class CSearchbarComponent implements OnInit, AfterViewInit, OnDestroy {
   trackGIFIndex(index: number): number {
     return index;
   }
+  /**
+   * Triggers the sub component CHomegiphyComponent after emit from  imagethumbnail component.
+   */
   refreshCollection(): void {
     this.CHomeComponent.getDatabase();
     this.CHomeComponent.searchCollections();
@@ -251,7 +273,7 @@ export class CSearchbarComponent implements OnInit, AfterViewInit, OnDestroy {
   }
  
   /**
-   *
+   *Unsubscribes from all subscriptions.
    */
   ngOnDestroy(): void {
     this.Subscriptions.forEach((subscription) => subscription.unsubscribe());

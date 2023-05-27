@@ -10,7 +10,7 @@ export class DbService {
   constructor(private appService: AppService) {}
 
   /**
-   *
+   * Get all the stored GIFS from local storage.
    */
   get GifDB(): IGifDB[] {
     const tempgifDB = this.appService.tempGetKey('_tempDB');
@@ -19,14 +19,15 @@ export class DbService {
     return gifDB;
   }
   /**
-   *
+   * Get last searchtext key from local storage
    */
   get SearchTxt(): string {
     const getSearchQuery = this.appService.tempGetKey('_searchQuery');
     return getSearchQuery ? getSearchQuery : '';
   }
   /**
-   *
+   * Generate new ID from the last stored GIFs data. If the
+   * localstorage is empty, generate a new ID.
    */
   getNewRowID(): number {
     const getDB: IGifDB[] = this.GifDB;
@@ -38,9 +39,9 @@ export class DbService {
   }
   /**
    *
-   * @param giphy
-   * @param saveTitle
-   * @returns
+   * @param giphy received the selected GIF Data object.
+   * @param saveTitle received the title of the GIF.
+   * @returns true if the GIF was saved, false otherwise.
    */
   saveGIF(giphy: IGifDB, saveTitle: string): boolean {
     const getDB: IGifDB[] = this.GifDB;
@@ -61,8 +62,8 @@ export class DbService {
   }
   /**
    *
-   * @param giphy
-   * @returns
+   * @param giphy received the selected GIF Data object to be deleted.
+   * @returns true if the GIF was deleted, false otherwise.
    */
   removeGIF(giphy: IGifDB): boolean {
     let getDB: IGifDB[] = this.GifDB;
@@ -73,8 +74,8 @@ export class DbService {
   }
   /**
    *
-   * @param giphy
-   * @returns
+   * @param giphy received data to be checked.
+   * @returns true if the GIF was existing, false otherwise.
    */
   checkIfExist(giphy: IGifDB): boolean {
     let getDB: IGifDB[] = this.GifDB;

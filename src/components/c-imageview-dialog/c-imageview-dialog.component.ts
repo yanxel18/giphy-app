@@ -39,7 +39,8 @@ export class CImageviewDialogComponent implements OnInit, OnDestroy {
     margin: '0px',
   };
   /**
-   * 
+   * Initialized the browser title and checks
+   * if the image is already saved by (this.hasSavedImage) flag.
    */
   ngOnInit(): void {
     this.initializeDialog();
@@ -58,14 +59,14 @@ export class CImageviewDialogComponent implements OnInit, OnDestroy {
  
   /**
    * 
-   * @param title 
-   * @returns 
+   * @param title received title to be shortened
+   * @returns the shortened title
    */
   titleShortener(title: string | null): string | null {
     return this.appService.titleShortener(title);
   }
   /**
-   * 
+   * Download the GIF image as file using high resolution Giphy API URL.
    */
   downloadGIF(): void {
     if (this.gifData.viewUrl)
@@ -79,7 +80,7 @@ export class CImageviewDialogComponent implements OnInit, OnDestroy {
     );
   }
   /**
-   * 
+   * Save the selected GIF to the local storage.
    */
   saveGif(): void {
     if (this.imageTitleLong) 
@@ -88,7 +89,9 @@ export class CImageviewDialogComponent implements OnInit, OnDestroy {
       this.imageTitleLong
     );
   }
-
+  /**
+   * Close the dialog and emits value that isSave boolean.
+   */
   closeDialog(): void {
     this.dialogRef.close(
       {
@@ -97,20 +100,21 @@ export class CImageviewDialogComponent implements OnInit, OnDestroy {
     );
   }
   /**
-   * 
+   * Remove the selected GIF from the local storage.
    */
   removeGIF(): void {
     this.hasSavedImage = this.dbService.removeGIF(this.gifData);
   }
   /**
    * 
-   * @param event 
+   * @param event received from the image that did not load properly.
+   * and displays as nothing.
    */
   checkifload(event: Event): void {
     (event.target as HTMLImageElement).style.display = 'none';
   }
   /**
-   * 
+   * Unsubscribe from all subscriptions.
    */
   ngOnDestroy(): void {
     this.Subscriptions.forEach((sub) => sub.unsubscribe());

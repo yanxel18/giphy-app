@@ -18,6 +18,9 @@ export class AppComponent implements OnInit, OnDestroy{
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
   }
+  /**
+   * initialized title
+   */
   ngOnInit(): void {
     this.apptitle.setTitle(this.title);
   }

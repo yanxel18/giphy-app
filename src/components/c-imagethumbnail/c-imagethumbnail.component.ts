@@ -1,18 +1,18 @@
 import {
-  Component, 
-  EventEmitter, 
+  Component,
+  EventEmitter,
   Input,
   OnDestroy,
   OnInit,
-  Output, 
+  Output,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { AppService } from 'src/app/app.service'; ;
+import { AppService } from 'src/app/app.service';
 import { MatDialog } from '@angular/material/dialog';
 import { CImageviewDialogComponent } from '../c-imageview-dialog/c-imageview-dialog.component';
 import { DbService } from 'src/dbservice/db.service';
 import { ICloseImageDialog, IGifDB } from 'src/models/web-interface';
- 
+
 @Component({
   selector: 'app-c-imagethumbnail',
   templateUrl: './c-imagethumbnail.component.html',
@@ -34,9 +34,9 @@ export class CImagethumbnailComponent implements OnInit, OnDestroy {
   ) {}
   /**
    *
-   * @param imageData
+   * @param imageData passed value from parent component on a specific array object.
    */
-  showImage(imageData: IGifDB): void {  
+  showImage(imageData: IGifDB): void {
     const dialog = this.viewGIFDialog.open(CImageviewDialogComponent, {
       disableClose: true,
       minWidth: '300px',
@@ -45,23 +45,27 @@ export class CImagethumbnailComponent implements OnInit, OnDestroy {
     });
     this.Subscription.push(
       dialog.afterClosed().subscribe((result: ICloseImageDialog) => {
-        if (result) { 
-            result.isSave
+        if (result) {
+          result.isSave
             ? (this.hasSavedImage = true)
-            : (this.hasSavedImage = false); 
-            this.OutSaveStatus.emit();
-        }  
+            : (this.hasSavedImage = false);
+          this.OutSaveStatus.emit();
+        }
       })
     );
   }
   /**
    *
-   * @param event
+   * @param event gets the event if the image does not load correctly.
+   * it will be displayed as nothing.
    */
   checkifload(event: Event): void {
     (event.target as HTMLImageElement).style.display = 'none';
   }
   /**
+   * Initializes the Title of the browser.
+   * this.hasSavedImage flag checks if the selected image is already existed in the storage
+   * shade the collections button.
    *
    */
   ngOnInit(): void {
@@ -74,31 +78,37 @@ export class CImagethumbnailComponent implements OnInit, OnDestroy {
     this.imageTitleLong = newtitle ? newtitle : '';
     this.imageTitleShort = this.titleShortener(this.imageTitleLong);
     this.hasSavedImage = this.dbService.checkIfExist(this.InGIFData);
-  
   }
   /**
    *
-   * @param title
-   * @returns
+   * @param title received title to be shortened.
+   * @returns the shortened title.
    */
   titleShortener(title: string | null): string | null {
     return this.appService.titleShortener(title);
   }
+  /**
+   * Saved the GIF to the local storage and emits after the save is complete.
+   */
   saveGif(): void {
     if (this.imageTitleLong)
       this.hasSavedImage = this.dbService.saveGIF(
         this.InGIFData,
         this.imageTitleLong
       );
-      this.OutSaveStatus.emit();
+    this.OutSaveStatus.emit();
   }
   /**
-   *
+   *Removes the GIF from the local storage.
+   * and emits after the remove is complete.
    */
   removeGIF(): void {
     this.hasSavedImage = this.dbService.removeGIF(this.InGIFData);
     this.OutSaveStatus.emit();
-  } 
+  }
+  /**
+   * Unsubscribe from all subscriptions.
+   */
   ngOnDestroy(): void {
     this.Subscription.forEach((sub) => sub.unsubscribe());
   }
