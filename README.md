@@ -28,6 +28,9 @@ This Giphy App has the following features.
 * Download GIFs from users collection by opening the dialog box.
 * Drag and Drop sorting or sort by newest to oldest by added date or vice versa.
 * Page last state will be restored including search results from both collections and GIFs search area or scrollbar position etc.
+## Requirements
+* Download the latest version of [NodeJS](https://nodejs.org/en/download/)
+* Install the latest [Angular CLI](https://angular.io/cli) 
 ## Installation and Set-up
 * Step 1: Clone the repository https://github.com/yanxel18/giphy-app.git or download by zip
 * Step 2: If downloaded by zip, extract the zip file to the preferred location.
