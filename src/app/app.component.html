@@ -11,7 +11,7 @@
     class="sidenav-container"
     
   >
-    <mat-sidenav-content class="side-nav-content"> 
+    <mat-sidenav-content class="side-nav-content" #bodycontainer (scroll)="onScroll()"> 
       <div class="search-and-collections-container">
         <div class="search-and-collections-area"> 
       <router-outlet></router-outlet>

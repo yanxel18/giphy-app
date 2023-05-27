@@ -14,9 +14,20 @@
         mat-icon-button
         (click)="searchGif()"
         class="search-button-suffix"
+        *ngIf="searchQuery.length === 0"
       >
         <mat-icon>search</mat-icon>
       </button>
+      <button
+      matSuffix
+      mat-icon-button
+      (click)="searchGif()"
+      class="search-button-suffix"
+      *ngIf="searchQuery.length > 0"
+      (click)="clearSearchInput()"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
     </mat-form-field>
   </div>
   <div class="trending-words-container">

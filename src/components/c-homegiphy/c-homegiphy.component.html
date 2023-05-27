@@ -19,10 +19,21 @@
         [(ngModel)]="searchQuery"
         (ngModelChange)="searchCollections()"
       />
-      <button *ngIf="searchQuery.length === 0" matSuffix mat-icon-button class="search-button-suffix">
+      <button
+        *ngIf="searchQuery.length === 0"
+        matSuffix
+        mat-icon-button
+        class="search-button-suffix"
+      >
         <mat-icon>search</mat-icon>
       </button>
-      <button *ngIf="searchQuery.length > 0" (click)="clearSearchInput()" matSuffix mat-icon-button class="search-button-suffix">
+      <button
+        *ngIf="searchQuery.length > 0"
+        (click)="clearSearchInput()"
+        matSuffix
+        mat-icon-button
+        class="search-button-suffix"
+      >
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>
@@ -44,42 +55,44 @@
     </mat-menu>
   </div>
 </div>
-<div class="collection-results-container"> 
+<div class="collection-results-container">
+  <div
+    *ngIf="gifResult.length > 0 || searchFlag"
+    class="collection-results"
+    cdkDropListGroup
+  >
     <div
-      *ngIf="gifResult.length > 0 || searchFlag"
-      class="collection-results"
-      cdkDropListGroup
+      *ngFor="let gif of gifResult; let i = index"
+      cdkDropList
+      [cdkDropListData]="i"
     >
       <div
-        *ngFor="let gif of gifResult; let i = index"
-        cdkDropList
-        [cdkDropListData]="i" 
+        [cdkDragDisabled]="!searchFlag == false"
+        cdkDrag
+        [cdkDragData]="i"
+        (cdkDragEntered)="dragEntered($event)"
+        (cdkDragMoved)="dragMoved()"
+        (cdkDragDropped)="dragDropped($event)"
       >
-        <div
-        [cdkDragDisabled]="!searchFlag==false"
-          cdkDrag
-          [cdkDragData]="i"
-          (cdkDragEntered)="dragEntered($event)"
-          (cdkDragMoved)="dragMoved()"
-          (cdkDragDropped)="dragDropped($event)"
-        >
-          <app-c-imagethumbnail
-            [InGIFData]="gif"
-            (OutSaveStatus)="refreshData()"
-          ></app-c-imagethumbnail>
-        </div>
+        <app-c-imagethumbnail
+          [matTooltipDisabled]="searchFlag"
+          matTooltip="Drag to sort"
+          [InGIFData]="gif"
+          (OutSaveStatus)="refreshData()"
+        ></app-c-imagethumbnail>
       </div>
     </div>
+  </div>
 
-    <div *ngIf="gifResult.length === 0 && !searchFlag">
-      <div class="collection-empty-container">
-        No stored GIFS! Collect more GIFs!
-      </div>
+  <div *ngIf="gifResult.length === 0 && !searchFlag">
+    <div class="collection-empty-container">
+      No stored GIFS! Collect more GIFs!
     </div>
+  </div>
 
-    <div *ngIf="gifResult.length === 0 && searchFlag">
-      <div class="collection-empty-container">
-        No GIF found with the name `{{ searchQuery }}`
-      </div>
-    </div> 
+  <div *ngIf="gifResult.length === 0 && searchFlag">
+    <div class="collection-empty-container">
+      No GIF found with the name `{{ searchQuery }}`
+    </div>
+  </div>
 </div>

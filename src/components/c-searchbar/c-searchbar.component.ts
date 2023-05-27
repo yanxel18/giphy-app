@@ -96,6 +96,12 @@ export class CSearchbarComponent implements OnInit, AfterViewInit, OnDestroy {
       })
     );
   }
+
+  clearSearchInput(): void {
+    this.searchQuery = '';
+    this.appService.tempStoreKey('_searchQuery', this.searchQuery);
+    this.searchGif();
+  }
   /**
    *
    * @param changeSearch if the search is from normal search or trending search
