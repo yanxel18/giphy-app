@@ -5,12 +5,12 @@
 ## Author
 [Bryan Antones Fernandez](https://github.com/yanxel18)
 ![alt text](src/assets/maindisplay.gif)
-<img src="src/assets/searchandshowmore.gif" width="600" height="400">
-<img src="src/assets/sortnewandold.gif" width="600" height="400">
-<img src="src/assets/dragandsort.gif" width="600" height="400">
-<img src="src/assets/addgifandremovefromsearch.gif" width="600" height="400">
-<img src="src/assets/removegiffromdialogandsearch.gif" width="600" height="400">
-<img src="src/assets/addgifandremovefromsearch.gif" width="600" height="400">
+<img src="src/assets/searchandshowmore.gif" width="900" height="400">
+<img src="src/assets/sortnewandold.gif" width="900" height="400">
+<img src="src/assets/dragandsort.gif" width="900" height="400">
+<img src="src/assets/addgifandremovefromsearch.gif" width="900" height="400">
+<img src="src/assets/removegiffromdialogandsearch.gif" width="900" height="400">
+<img src="src/assets/addgifandremovefromsearch.gif" width="900" height="400">
 
 ## Description
 The web application used the Giphy API by  getting trending GIFS, and trending
