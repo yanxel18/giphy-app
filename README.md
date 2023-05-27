@@ -8,10 +8,10 @@
 <img src="src/assets/searchandshowmore.gif" width="600" height="400">
 <img src="src/assets/sortnewandold.gif" width="600" height="400">
 <img src="src/assets/dragandsort.gif" width="600" height="400">
-<img src="src/assets/addgifandremovefromsearch.gif" width="600" height="400">
-<img src="src/assets/removegiffromdialogandsearch.gif" width="600" height="400">
-<img src="src/assets/addgifandremovefromsearch.gif" width="600" height="400">
-
+<img src="src/assets/addgifandremovefromsearch.gif" width="600" height="500">
+<img src="src/assets/removegiffromdialogandsearch.gif" width="600" height="500">
+<img src="src/assets/addgifandremovefromsearch.gif" width="600" height="500">
+<img src="src/assets/downloadgif.gif" width="600" height="600">
 ## Description
 The web application used the Giphy API by  getting trending GIFS, and trending
 words. The user can search for GIFS, store and remove from collections.
