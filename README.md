@@ -13,21 +13,21 @@
 <img src="src/assets/addgifandremovefromsearch.gif" width="600" height="500">
 <img src="src/assets/downloadgif.gif" width="600" height="600">
 ## Description
-The web application used the Giphy API by  getting trending GIFS, and trending
-words. The user can search for GIFS, store and remove from collections.
+This web app created using Giphy API that pulls trending GIFS, and trending
+words and search APIs. The user can search for GIFS, collect GIFs and the user can manage his GIFs collection.
 ## Features
 This Giphy App has the following features.
-* Search for GIFs by keywords and displays the result by grid.
+* Searching for GIFs by keywords and displays the result GIF images by grid.
 * Storing the selected GIFs to users collections and display dynamically without page refresh.
 * GIF data are stored in local storage using JSON Object.
 * Search from users collections by keywords based on GIF stored name and searched keyword.
-* Stored or remove GIFs from search or users collection or vice versa.
+* Store or remove GIFs from search or users collection or vice versa.
 * The GIFs that has been stored to collections are removed from the next search result. 
 * The removed GIFS from the collections will return to the search results.
 * View GIFs in dialog box that can has button to store or remove GIF from collections.
-* Download GIFs from users collection by opening the dialog box.
-* Drag and Drop sorting or sort by newest to oldest by added date or vice versa.
-* Page last state will be restored including search results from both collections and GIFs search area or scrollbar position etc.
+* Can download selected GIFs from users collection by opening the dialog box.
+* Drag and Drop sorting or sort by newest to oldest by stored date or vice versa.
+* The apps last state will be automatically restored after browser refreshes including typed  keyword in the textbox and displays last search results GIFs from both collections and GIFs search area or scrollbar position and GIFs arrangement.
 ## Requirements
 * Download the latest version of [NodeJS](https://nodejs.org/en/download/)
 * Install the latest [Angular CLI](https://angular.io/cli) 
