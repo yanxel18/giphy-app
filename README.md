@@ -5,12 +5,13 @@
 ## Author
 [Bryan Antones Fernandez](https://github.com/yanxel18)
 ![alt text](src/assets/maindisplay.gif)
-![alt text](src/assets/searchandshowmore.gif =600x400)
-![alt text](src/assets/sortnewandold.gif =600x400)
-![alt text](src/assets/dragandsort.gif =600x400)
-![alt text](src/assets/addgifandremovefromsearch.gif =600x400)
-![alt text](src/assets/removegiffromdialogandsearch.gif =600x400)
-![alt text](src/assets/addgifandremovefromsearch.gif =600x400)
+<img src="src/assets/searchandshowmore.gif" width="600" height="400">
+<img src="src/assets/sortnewandold.gif" width="600" height="400">
+<img src="src/assets/dragandsort.gif" width="600" height="400">
+<img src="src/assets/addgifandremovefromsearch.gif" width="600" height="400">
+<img src="src/assets/removegiffromdialogandsearch.gif" width="600" height="400">
+<img src="src/assets/addgifandremovefromsearch.gif" width="600" height="400">
+
 ## Description
 The web application used the Giphy API by  getting trending GIFS, and trending
 words. The user can search for GIFS, store and remove from collections.
