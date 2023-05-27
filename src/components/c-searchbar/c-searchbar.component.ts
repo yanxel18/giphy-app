@@ -238,6 +238,7 @@ export class CSearchbarComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   refreshCollection(): void {
     this.CHomeComponent.getDatabase();
+    this.CHomeComponent.searchCollections();
   }
   /**
    * Put the cursor to the search bar.

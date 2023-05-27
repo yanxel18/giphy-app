@@ -65,7 +65,8 @@ export class CHomegiphyComponent implements OnInit, AfterViewInit {
     return index;
   }
   sortGifByDate(order: number): void {
-    this.gifResult.sort((a, b) => {
+    this.getDatabase();
+     this.gifResult.sort((a, b) => {
       if (a.savedate && b.savedate) {
         if (order === 0)
           return (
@@ -79,6 +80,7 @@ export class CHomegiphyComponent implements OnInit, AfterViewInit {
       return 0;
     });
     this.appService.tempStoreKey('_tempDB', JSON.stringify(this.gifResult));
+    if (this.searchFlag) this.searchCollections()
   }
   getDatabase(): void {
     this.gifResult = this.dbService.GifDB.map((item) => {
@@ -89,16 +91,17 @@ export class CHomegiphyComponent implements OnInit, AfterViewInit {
     });
   }
 
-  searchCollections(): void {
-    this.searchQuery = this.searchQuery.trim();
+  searchCollections(): void { 
+    this.searchQuery = this.searchQuery.trim(); 
     if (this.searchQuery.length > 0) {
       this.searchFlag = true;
       this.appService.tempStoreKey('_searchCollection',this.searchQuery);
+      this.getDatabase();
       this.gifResult = this.gifResult.filter((x) =>
         x.searchTags?.some((w) =>
           w.toLowerCase().includes(this.searchQuery.toLowerCase())
         )
-      );
+      ); 
     } else {
       this.getDatabase();
       this.appService.tempStoreKey('_searchCollection',this.searchQuery);

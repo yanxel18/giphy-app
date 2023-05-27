@@ -54,10 +54,10 @@
       <div
         *ngFor="let gif of gifResult; let i = index"
         cdkDropList
-        [cdkDropListData]="i"
-        matTooltip="Drag to sort"
+        [cdkDropListData]="i" 
       >
         <div
+        [cdkDragDisabled]="!searchFlag==false"
           cdkDrag
           [cdkDragData]="i"
           (cdkDragEntered)="dragEntered($event)"
