@@ -9,13 +9,11 @@ import {
 } from '@angular/core';
 import { AppService } from 'src/app/app.service';
 import { DbService } from 'src/dbservice/db.service';
-import { IGiphyData } from 'src/models/giphy-interface';
 import { IGifDB, ISkeletonLoader } from 'src/models/web-interface';
 import { CSearchbarComponent } from '../c-searchbar/c-searchbar.component';
 import {
   CdkDragEnter,
   moveItemInArray,
-  CdkDragMove,
   CdkDragDrop,
 } from '@angular/cdk/drag-drop';
 

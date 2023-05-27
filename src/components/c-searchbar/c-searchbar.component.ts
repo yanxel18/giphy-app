@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { Observable, Subscription, map } from 'rxjs';
 import { AppService } from 'src/app/app.service';
-import { IGiphyData, IGiphyPayload } from 'src/models/giphy-interface';
+import { IGiphyPayload } from 'src/models/giphy-interface';
 import { IAPIParam, IGifDB, ISkeletonLoader } from 'src/models/web-interface';
 import { DbService } from 'src/dbservice/db.service';
 import { Title } from '@angular/platform-browser';

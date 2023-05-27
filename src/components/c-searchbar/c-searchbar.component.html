@@ -100,7 +100,6 @@
           <div  *ngFor="let gif of gifResult; let i = index; trackBy: trackGIFIndex"
           >
             <app-c-imagethumbnail
-              
               [InGIFData]="gif"
               (OutSaveStatus)="refreshCollection()"
             ></app-c-imagethumbnail>

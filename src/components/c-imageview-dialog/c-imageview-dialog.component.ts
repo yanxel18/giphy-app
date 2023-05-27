@@ -1,7 +1,6 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AppService } from 'src/app/app.service';
-import { IGiphyData } from 'src/models/giphy-interface';
 import * as filesaver from 'file-saver';
 import { Subscription } from 'rxjs';
 import { DbService } from 'src/dbservice/db.service';
