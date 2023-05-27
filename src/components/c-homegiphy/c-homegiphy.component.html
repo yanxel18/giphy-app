@@ -19,63 +19,69 @@
         [(ngModel)]="searchQuery"
         (ngModelChange)="searchCollections()"
       />
-      <button matSuffix mat-icon-button class="search-button-suffix">
+      <button *ngIf="searchQuery.length === 0" matSuffix mat-icon-button class="search-button-suffix">
         <mat-icon>search</mat-icon>
+      </button>
+      <button *ngIf="searchQuery.length > 0" (click)="clearSearchInput()" matSuffix mat-icon-button class="search-button-suffix">
+        <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>
   </div>
   <div class="sortbydate-container">
-    <button
-    class="sort-button"
-    mat-flat-button
-    [matMenuTriggerFor]="sort"
-  >
-  <mat-icon>sort</mat-icon>
-  Sort GIFs
-  </button>
-  <mat-menu #sort="matMenu" xPosition="before" class="sortmenu-display">
-    <button mat-menu-item  (click)="sortGifByDate(0)">
-      <mat-icon>arrow_drop_up</mat-icon> 
-      <span>Newest to Oldest</span>
+    <button class="sort-button" mat-flat-button [matMenuTriggerFor]="sort">
+      <mat-icon>sort</mat-icon>
+      Sort GIFs
     </button>
-    <button mat-menu-item   (click)="sortGifByDate(1)">  
-      <mat-icon>arrow_drop_down</mat-icon>
-      <span>Oldest to Newest</span>
-    </button> 
-  </mat-menu>
+    <mat-menu #sort="matMenu" xPosition="before" class="sortmenu-display">
+      <button mat-menu-item (click)="sortGifByDate(0)">
+        <mat-icon>arrow_drop_up</mat-icon>
+        <span>Newest to Oldest</span>
+      </button>
+      <button mat-menu-item (click)="sortGifByDate(1)">
+        <mat-icon>arrow_drop_down</mat-icon>
+        <span>Oldest to Newest</span>
+      </button>
+    </mat-menu>
   </div>
 </div>
 <div class="collection-results-container">
   <div class="collection-results-scroller">
-    <div class="collection-results" cdkDropListGroup>
-      <div *ngIf="gifResult.length > 0; then withresult; else noresult"></div>
-      <ng-template #withresult>
+    <div
+      *ngIf="gifResult.length > 0 || searchFlag"
+      class="collection-results"
+      cdkDropListGroup
+    >
+      <div
+        *ngFor="let gif of gifResult; let i = index"
+        cdkDropList
+        [cdkDropListData]="i"
+        matTooltip="Drag to sort"
+      >
         <div
-          *ngFor="let gif of gifResult; let i = index"
-          cdkDropList
-          [cdkDropListData]="i"
-          matTooltip="Drag to sort"
+          cdkDrag
+          [cdkDragData]="i"
+          (cdkDragEntered)="dragEntered($event)"
+          (cdkDragMoved)="dragMoved()"
+          (cdkDragDropped)="dragDropped($event)"
         >
-          <div
-            cdkDrag
-            [cdkDragData]="i"
-            (cdkDragEntered)="dragEntered($event)"
-            (cdkDragMoved)="dragMoved()"
-            (cdkDragDropped)="dragDropped($event)"
-          >
-            <app-c-imagethumbnail
-              [InGIFData]="gif"
-              (OutSaveStatus)="refreshData()"
-            ></app-c-imagethumbnail>
-          </div>
+          <app-c-imagethumbnail
+            [InGIFData]="gif"
+            (OutSaveStatus)="refreshData()"
+          ></app-c-imagethumbnail>
         </div>
-      </ng-template>
+      </div>
+    </div>
 
-      <ng-template #noresult>
-        <div class="collection-empty-container">
-          No stored GIFS! Find more GIF!
-        </div>
-      </ng-template>
+    <div *ngIf="gifResult.length === 0 && !searchFlag">
+      <div class="collection-empty-container">
+        No stored GIFS! Collect more GIFs!
+      </div>
+    </div>
+
+    <div *ngIf="gifResult.length === 0 && searchFlag">
+      <div class="collection-empty-container">
+        No GIF found with the name `{{ searchQuery }}`
+      </div>
     </div>
   </div>
 </div>

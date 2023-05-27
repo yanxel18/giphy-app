@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   EventEmitter,
@@ -24,13 +25,12 @@ import {
   styleUrls: ['./c-homegiphy.component.sass'],
   providers: [AppService, DbService],
 })
-export class CHomegiphyComponent implements OnInit {
-  defaultDisplay: boolean = false;
+export class CHomegiphyComponent implements OnInit, AfterViewInit { 
   @Output() OutRefreshSearch = new EventEmitter<any>();
   @ViewChild('dropListContainer') dropListContainer?: ElementRef;
   @ViewChild(CSearchbarComponent)
   CSearchBar!: CSearchbarComponent;
-
+  searchFlag: boolean = false;
   gifResult: IGifDB[] = [];
   searchQuery: string = '';
   constructor(private appService: AppService, private dbService: DbService) {}
@@ -44,11 +44,22 @@ export class CHomegiphyComponent implements OnInit {
     'margin-left': '4px',
     'margin-right': '8px',
   };
-  ngOnInit(): void {
-    const getDefaultView: string | null =
-      this.appService.tempGetKey('_default');
-    this.defaultDisplay = getDefaultView === '1' ? true : false;
+  /**
+   * Initialized
+   */
+  ngOnInit(): void { 
     this.getDatabase();
+  }
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      const searchQ: string | null =
+      this.appService.tempGetKey('_searchCollection');
+      if (typeof searchQ === 'string') {
+        this.searchQuery = searchQ;
+        this.searchCollections()
+      } else this.searchQuery = '';
+    },0)
+
   }
   trackGIFIndex(index: number): number {
     return index;
@@ -56,8 +67,14 @@ export class CHomegiphyComponent implements OnInit {
   sortGifByDate(order: number): void {
     this.gifResult.sort((a, b) => {
       if (a.savedate && b.savedate) {
-        if (order === 0) return new Date(b.savedate).getTime() - new Date(a.savedate).getTime() ; 
-        if (order === 1) return new Date(a.savedate).getTime() - new Date(b.savedate).getTime();
+        if (order === 0)
+          return (
+            new Date(b.savedate).getTime() - new Date(a.savedate).getTime()
+          );
+        if (order === 1)
+          return (
+            new Date(a.savedate).getTime() - new Date(b.savedate).getTime()
+          );
       }
       return 0;
     });
@@ -75,19 +92,36 @@ export class CHomegiphyComponent implements OnInit {
   searchCollections(): void {
     this.searchQuery = this.searchQuery.trim();
     if (this.searchQuery.length > 0) {
+      this.searchFlag = true;
+      this.appService.tempStoreKey('_searchCollection',this.searchQuery);
       this.gifResult = this.gifResult.filter((x) =>
         x.searchTags?.some((w) =>
           w.toLowerCase().includes(this.searchQuery.toLowerCase())
         )
       );
-    } else this.getDatabase();
+    } else {
+      this.getDatabase();
+      this.appService.tempStoreKey('_searchCollection',this.searchQuery);
+      this.searchFlag = false;
+    }
   }
 
   refreshData(): void {
+    if (!this.searchFlag) { 
     this.getDatabase();
     this.OutRefreshSearch.emit();
+    } else {
+      this.getDatabase();
+      this.OutRefreshSearch.emit();
+      this.searchCollections()
+    }
   }
 
+  clearSearchInput(): void {
+    this.searchQuery = '';
+    this.appService.tempStoreKey('_searchCollection',this.searchQuery);
+    this.searchCollections();
+  }
   dropListReceiverElement?: HTMLElement;
   dragDropInfo?: {
     dragIndex: number;
