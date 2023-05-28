@@ -1,4 +1,4 @@
-# Giphy App (GIFSuki!) Web app
+# Giphy App (GIFSuki!)
 
 ### This project was created by using Angular CLI 16.0.2
 
@@ -25,7 +25,7 @@ words and query on search API. The user can search for GIFS, store GIFs and mana
 * View GIFs in dialog box has button to store or remove GIF from collections.
 * Download selected GIFs from users collection by opening the dialog box.
 * Drag and Drop sorting or sort by newest to oldest by stored date or vice versa.
-* The apps last state will be automatically restored after browser refreshes including the typed text in the textbox, displays the last search GIFs results on both collections and search area , scroll to the last scrollbar position , and maitain GIFs arrangement.
+* The apps last state will be automatically restored after browser refreshes including the typed text in the textbox, displays the last search GIFs results on both collections and search area , scroll to the last scrollbar position , and maintain GIFs arrangement.
 ## Requirements
 * Download the latest version of [NodeJS](https://nodejs.org/en/download/)
 * Install the latest [Angular CLI](https://angular.io/cli) 
